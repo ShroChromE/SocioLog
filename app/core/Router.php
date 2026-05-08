@@ -28,7 +28,7 @@ class Router
             );
             $pattern = '#^' . $pattern . '$#';
 
-            if (preg_match($pattern, $uri, $matches)) {
+            if (preg_match($pattern, $uri, $matches) && $route['method'] === $method) {
                 array_shift($matches);
 
                 require_once '../app/controllers/' . $route['controller'] . '.php';

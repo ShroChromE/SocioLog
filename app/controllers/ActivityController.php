@@ -40,7 +40,7 @@ class ActivityController extends Controller
         $activityModel = new Activity();
         $activities = $activityModel->getActivities();
 
-        $this->view('activities.manage',[
+        $this->view('activities.manage', [
             'activities' => $activities
         ]);
     }

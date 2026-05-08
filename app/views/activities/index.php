@@ -35,9 +35,9 @@
     <div class="p-4 flex flex-col gap-2 flex-1">
       <h3 class="text-sm font-semibold text-white leading-snug"><?= ($activity['activity']) ?></h3>
       <div class="flex flex-col gap-1">
-        <span class="text-xs text-white">📅 <?= date('d F Y', strtotime($activity['date'])) ?></span>
-        <span class="text-xs text-white">🕐 <?= ($activity['time']) ?></span>
-        <span class="text-xs text-white">📍 <?= ($activity['location']) ?></span>
+        <div class="text-xs text-white">📅 <?= date('d F Y', strtotime($activity['date'])) ?></div>
+        <div class="text-xs text-white">🕐 <?= ($activity['time']) ?></div>
+        <div class="text-xs text-white">📍 <?= ($activity['location']) ?></div>
       </div>
       <a href="/activities/<?= $activity['id'] ?>" class="mt-auto w-full py-2.5 bg-yellow hover:bg-yellow-hover text-black text-sm font-bold rounded-lg transition-colors active:scale-95 text-center">
         Lihat Detail
@@ -51,7 +51,7 @@
 <!-- Empty State -->
 <?php if (empty($activities)): ?>
 <div class="text-center py-16 text-[#75573A]">
-  <span class="text-4xl block mb-3">🔍</span>
+  <div class="text-4xl block mb-3">🔍</div>
   <p class="text-base">Tidak ada kegiatan yang ditemukan.</p>
 </div>
 <?php endif; ?>

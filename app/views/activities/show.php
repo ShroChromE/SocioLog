@@ -1,9 +1,9 @@
 <!-- Page Header with Back Button -->
 <div class="bg-brown-dark rounded-2xl p-6 mb-5 flex items-center gap-4">
-  <button onclick="history.back()" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-colors flex-shrink-0">
-    ←
+  <button onclick="history.back()" class="w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-colors flex-shrink-0">
+    <img src="/assets/icons/back-arrow.svg" alt="Back" class="w-8 h-8">
   </button>
-  <span class="text-3xl">📋</span>
+  <img src="/assets/icons/list.svg" alt="Detail" class="w-12 h-12">
   <div>
     <h1 class="text-xl font-bold text-white">Detail Kegiatan</h1>
     <p class="text-sm text-white mt-0.5">Informasi lengkap mengenai kegiatan sosial</p>
@@ -99,5 +99,30 @@
 
 <!-- Register Button -->
 <button class="w-full py-3.5 bg-yellow hover:bg-yellow-hover text-black text-base font-bold rounded-xl transition-colors active:scale-95 mb-2">
-  Daftar Sekarang
+  <?php if (isset($_SESSION['user_id'])): ?>
+  <?php
+    $regModel = new \App\Models\Registration();
+    $isRegistered = $regModel->isRegistered($_SESSION['user_id'], $activity['id']);
+  ?>
+  <?php if ($isRegistered): ?>
+    <form method="POST" action="/activities/<?= $activity['id'] ?>/unregister">
+      <button type="submit"
+              class="w-full py-3.5 bg-red-400 hover:bg-red-500 text-white text-base font-bold rounded-xl transition-colors active:scale-95 mb-2">
+        Batalkan Pendaftaran
+      </button>
+    </form>
+  <?php else: ?>
+    <form method="POST" action="/activities/<?= $activity['id'] ?>/register">
+      <button type="submit"
+              class="w-full py-3.5 bg-yellow hover:bg-yellow-hover text-black text-base font-bold rounded-xl transition-colors active:scale-95 mb-2">
+        Daftar Sekarang
+      </button>
+    </form>
+  <?php endif; ?>
+  <?php else: ?>
+  <a href="/login"
+      class="block w-full py-3.5 bg-yellow hover:bg-yellow-hover text-black text-base font-bold rounded-xl transition-colors text-center mb-2">
+    Login untuk Mendaftar
+  </a>
+  <?php endif; ?>
 </button>

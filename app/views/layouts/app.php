@@ -55,14 +55,15 @@
     <div class="flex items-center gap-2.5 px-4 pb-4 border-b border-black/10 mb-3">
       <div class="w-10 h-10 rounded-full bg-brown-light flex items-center justify-center text-lg flex-shrink-0">👤</div>
       <div class="overflow-hidden">
-        <p class="text-sm font-bold text-[#3B2507] truncate">Kenzo Rivaldo</p>
+        <p class="text-sm font-bold text-[#3B2507] truncate"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?></p>
         <p class="text-xs text-[#75573A] truncate">SMK Kristen Immanuel</p>
       </div>
     </div>
 
     <nav class="flex flex-col gap-0.5 px-2.5">
       <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <span class="w-5 text-center text-sm">📊</span> Dashboard
+        <img src="/assets/icons/dashboard.svg" alt="Dashboard" class="w-8 h-8">
+        Dashboard
       </a>
       <a href="/activities" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-bold bg-brown-dark text-[#FFE15E] transition-colors">
         <span class="w-5 text-center text-sm">📋</span> Daftar Kegiatan
@@ -71,13 +72,16 @@
         <span class="w-5 text-center text-sm">🕐</span> Kelola Kegiatan
       </a>
       <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <span class="w-5 text-center text-sm">📝</span> Pendaftaran
+        <img src="/assets/icons/register.svg" alt="Pendaftaran" class="w-8 h-8">
+        Pendaftaran
       </a>
       <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <span class="w-5 text-center text-sm">👤</span> Profil
+        <img src="/assets/icons/profile.svg" alt="Profil" class="w-8 h-8">
+        Profil
       </a>
       <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <span class="w-5 text-center text-sm">📈</span> Laporan & Rekap
+        <img src="/assets/icons/reports.svg" alt="Laporan & Rekap" class="w-8 h-8">
+        Laporan & Rekap
       </a>
     </nav>
 
