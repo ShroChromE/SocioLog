@@ -65,13 +65,11 @@
         <img src="/assets/icons/dashboard.svg" alt="Dashboard" class="w-8 h-8">
         Dashboard
       </a>
-      <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-bold bg-brown-dark text-[#FFE15E] transition-colors">
-        <img src="/assets/icons/list.svg" alt="Daftar Kegiatan" class="w-8 h-8">
-        Daftar Kegiatan
+      <a href="/activities" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-bold bg-brown-dark text-[#FFE15E] transition-colors">
+        <span class="w-5 text-center text-sm">📋</span> Daftar Kegiatan
       </a>
-      <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <img src="/assets/icons/manage.svg" alt="Kelola Kegiatan" class="w-8 h-8">
-        Kelola Kegiatan
+      <a href="/activities/manage" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
+        <span class="w-5 text-center text-sm">🕐</span> Kelola Kegiatan
       </a>
       <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
         <img src="/assets/icons/register.svg" alt="Pendaftaran" class="w-8 h-8">

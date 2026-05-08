@@ -260,6 +260,9 @@
   .inline-block {
     display: inline-block;
   }
+  .inline-flex {
+    display: inline-flex;
+  }
   .table {
     display: table;
   }
@@ -438,6 +441,12 @@
     --tw-border-style: none;
     border-style: none;
   }
+  .border-\[\#5C3D1E\] {
+    border-color: #5C3D1E;
+  }
+  .border-\[\#D4B896\] {
+    border-color: #D4B896;
+  }
   .border-black {
     border-color: var(--color-black);
   }
@@ -458,6 +467,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-white) 10%, transparent);
     }
+  }
+  .bg-\[\#5C3D1E\] {
+    background-color: #5C3D1E;
   }
   .bg-\[\#C9B99A\] {
     background-color: #C9B99A;
@@ -513,8 +525,20 @@
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
   }
+  .px-5 {
+    padding-inline: calc(var(--spacing) * 5);
+  }
+  .py-0 {
+    padding-block: calc(var(--spacing) * 0);
+  }
+  .py-0\.5 {
+    padding-block: calc(var(--spacing) * 0.5);
+  }
   .py-1 {
     padding-block: calc(var(--spacing) * 1);
+  }
+  .py-1\.5 {
+    padding-block: calc(var(--spacing) * 1.5);
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
@@ -545,6 +569,9 @@
   }
   .text-center {
     text-align: center;
+  }
+  .text-left {
+    text-align: left;
   }
   .text-3xl {
     font-size: var(--text-3xl);
@@ -605,6 +632,9 @@
   .text-\[\#3B2507\] {
     color: #3B2507;
   }
+  .text-\[\#5C3D1E\] {
+    color: #5C3D1E;
+  }
   .text-\[\#999\] {
     color: #999;
   }
@@ -646,6 +676,11 @@
     outline-style: var(--tw-outline-style);
     outline-width: 1px;
   }
+  .transition {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
   .transition-all {
     transition-property: all;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -655,6 +690,10 @@
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .duration-150 {
+    --tw-duration: 150ms;
+    transition-duration: 150ms;
   }
   .duration-200 {
     --tw-duration: 200ms;
@@ -672,6 +711,20 @@
       }
     }
   }
+  .hover\:bg-\[\#7A5230\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #7A5230;
+      }
+    }
+  }
+  .hover\:bg-\[\#eedcb5\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #eedcb5;
+      }
+    }
+  }
   .hover\:bg-black\/5 {
     &:hover {
       @media (hover: hover) {
@@ -686,6 +739,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-red-500);
+  .hover\:bg-white\/5 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in srgb, #fff 5%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-white) 5%, transparent);
+        }
       }
     }
   }
@@ -761,6 +821,27 @@
   }
 }
 @property --tw-translate-x {
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-border-style {
   syntax: "*";
   inherits: false;
   initial-value: 0;
@@ -776,6 +857,12 @@
   initial-value: 0;
 }
 @property --tw-rotate-x {
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-duration {
   syntax: "*";
   inherits: false;
 }
@@ -900,6 +987,16 @@
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
+      --tw-rotate-x: initial;
+      --tw-rotate-y: initial;
+      --tw-rotate-z: initial;
+      --tw-skew-x: initial;
+      --tw-skew-y: initial;
+      --tw-border-style: solid;
+      --tw-leading: initial;
+      --tw-font-weight: initial;
+      --tw-outline-style: solid;
+      --tw-duration: initial;
       --tw-translate-x: 0;
       --tw-translate-y: 0;
       --tw-translate-z: 0;
