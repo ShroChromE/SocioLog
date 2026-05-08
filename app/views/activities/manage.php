@@ -48,4 +48,14 @@
     </tbody>
   </table>
 
+<<<<<<< HEAD
+=======
+</div>
+
+<div class="mb-6">
+  <a href="/activities/1/edit"
+    class="inline-flex items-center gap-2 bg-[#5C3D1E] hover:bg-[#7A5230] active:scale-95 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all duration-200">
+    ✏️ Edit
+  </a>
+>>>>>>> 2cc6ccd (Edit: membuat design / front end halaman edit)
 </div>
