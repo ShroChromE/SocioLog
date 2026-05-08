@@ -29,6 +29,7 @@
         <th class="px-4 py-3 text-center text-sm font-bold text-white">Aksi</th>
       </tr>
     </thead>
+    <>
 
       <!-- Row 1 -->
       <?php foreach ($activities as $activity): ?>
@@ -47,11 +48,4 @@
     </tbody>
   </table>
 
-</div>
-
-<div class="mb-6">
-  <a href="/kegiatan/buat"
-    class="inline-flex items-center gap-2 bg-[#5C3D1E] hover:bg-[#7A5230] active:scale-95 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all duration-200">
-    ✏️ Edit
-  </a>
 </div>
