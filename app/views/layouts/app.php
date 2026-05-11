@@ -75,7 +75,7 @@
         <img src="/assets/icons/register.svg" alt="Pendaftaran" class="w-8 h-8">
         Pendaftaran
       </a>
-      <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
+      <a href="/profile" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
         <img src="/assets/icons/profile.svg" alt="Profil" class="w-8 h-8">
         Profil
       </a>
