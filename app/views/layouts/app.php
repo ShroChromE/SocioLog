@@ -60,6 +60,7 @@
       </div>
     </div>
 
+<<<<<<< HEAD
   
   <?php $currentUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>
   <nav class="flex flex-col gap-0.5 px-2.5">
@@ -99,6 +100,32 @@
       Laporan & Rekap
     </a>
   </nav>
+=======
+    <nav class="flex flex-col gap-0.5 px-2.5">
+      <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
+        <img src="/assets/icons/dashboard.svg" alt="Dashboard" class="w-8 h-8">
+        Dashboard
+      </a>
+      <a href="/activities" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-bold bg-brown-dark text-[#FFE15E] transition-colors">
+        <span class="w-5 text-center text-sm">📋</span> Daftar Kegiatan
+      </a>
+      <a href="/activities/manage" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
+        <span class="w-5 text-center text-sm">🕐</span> Kelola Kegiatan
+      </a>
+      <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
+        <img src="/assets/icons/register.svg" alt="Pendaftaran" class="w-8 h-8">
+        Pendaftaran
+      </a>
+      <a href="/profile" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
+        <img src="/assets/icons/profile.svg" alt="Profil" class="w-8 h-8">
+        Profil
+      </a>
+      <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
+        <img src="/assets/icons/reports.svg" alt="Laporan & Rekap" class="w-8 h-8">
+        Laporan & Rekap
+      </a>
+    </nav>
+>>>>>>> 91d3c88 (feat: implement-profi-dan-riwayat-siswa-page)
 
   </aside>
 
