@@ -11,7 +11,7 @@
 
 <!-- Toolbar -->
 <div class="mb-5">
-  <a href="/kegiatan/buat"
+  <a href="/admin/activities/create"
     class="inline-flex items-center gap-2 bg-[#5C3D1E] hover:bg-[#7A5230] active:scale-95 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all duration-200">
     ➕ Buat
   </a>
@@ -29,7 +29,6 @@
         <th class="px-4 py-3 text-center text-sm font-bold text-white">Aksi</th>
       </tr>
     </thead>
-    <>
 
       <!-- Row 1 -->
       <?php foreach ($activities as $activity): ?>
@@ -41,8 +40,7 @@
           <span class="inline-block text-xs font-bold px-3 py-0.5 rounded-full bg-[#e8d5b0] text-[#5C3D1E]">Belum</span>
         </td>
         <td class="px-4 py-3 text-center border-t border-[#D4B896]">
-          <a href="/kegiatan/1/edit" class="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#5C3D1E] hover:bg-[#7A5230] px-3 py-1.5 rounded-lg transition-colors">✏️ Edit</a>
-        </td>
+          <a href="/admin/activities/<?= $activity['id'] ?>/edit" class="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#5C3D1E] hover:bg-[#7A5230] px-3 py-1.5 rounded-lg transition-colors">✏️ Edit</a>
       </tr>
       <?php endforeach; ?>
     </tbody>

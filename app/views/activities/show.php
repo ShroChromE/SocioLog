@@ -1,9 +1,11 @@
+<?php require_once '../app/models/Registration.php'; ?>
+
 <!-- Page Header with Back Button -->
 <div class="bg-brown-dark rounded-2xl p-6 mb-5 flex items-center gap-4">
   <button onclick="history.back()" class="w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-colors flex-shrink-0">
     <img src="/assets/icons/back-arrow.svg" alt="Back" class="w-8 h-8">
   </button>
-  <img src="/assets/icons/list.svg" alt="Detail" class="w-12 h-12">
+  <img src="/assets/icons/list-active.svg" alt="Detail" class="w-12 h-12">
   <div>
     <h1 class="text-xl font-bold text-white">Detail Kegiatan</h1>
     <p class="text-sm text-white mt-0.5">Informasi lengkap mengenai kegiatan sosial</p>
@@ -20,9 +22,9 @@
       <span class="inline-block bg-yellow text-brown-dark text-xs font-bold px-3 py-1 rounded-full w-fit">Bakti Sosial</span>
       <h2 class="text-base font-bold text-white leading-snug"><?= ($activity['activity']) ?></h2>
       <div class="flex flex-col gap-1">
-        <span class="text-xs text-[#D4B896]">📅 <strong class="text-white">Tanggal:</strong> <?= date('d F Y', strtotime($activity['date'])) ?></span>
-        <span class="text-xs text-[#D4B896]">🕐 <strong class="text-white">Rentang Waktu:</strong> <?= ($activity['time']) ?></span>
-        <span class="text-xs text-[#D4B896]">📍 <strong class="text-white">Tempat/Lokasi:</strong> <?= ($activity['location']) ?></span>
+        <span class="text-xs text-[#D4B896]"><img src="/assets/icons/calendar.svg" alt="Date" class="w-4 h-4 inline mr-1"> <strong class="text-white">Tanggal:</strong> <?= date('d F Y', strtotime($activity['date'])) ?></span>
+        <span class="text-xs text-[#D4B896]"><img src="/assets/icons/clock.svg" alt="Time" class="w-4 h-4 inline mr-1"> <strong class="text-white">Rentang Waktu:</strong> <?= ($activity['time']) ?></span>
+        <span class="text-xs text-[#D4B896]"><img src="/assets/icons/location.svg" alt="Location" class="w-4 h-4 inline mr-1"> <strong class="text-white">Tempat/Lokasi:</strong> <?= ($activity['location']) ?></span>
       </div>
     </div>
   </div>
