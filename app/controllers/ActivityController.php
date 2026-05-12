@@ -44,7 +44,15 @@ class ActivityController extends Controller
             'activities' => $activities
         ]);
     }
+    public function profile()
+{
+    $activityModel = new Activity();
+    $activities = $activityModel->getActivities();
 
+    $this->view('activities.profile', [
+        'activities' => $activities
+    ]);
+}
     public function edit(string $id)
     {
         $id = intval($id);
