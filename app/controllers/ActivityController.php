@@ -83,4 +83,5 @@ class ActivityController extends Controller
         $activityModel = new Activity();
         $activityModel->delete($id);
     }
+
 }
