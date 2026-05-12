@@ -7,7 +7,6 @@ use App\Core\Router;
 
 $router = new Router();
 
-// Register Routes
 $router->add('GET', '/', 'AuthController', 'index');
 $router->add('GET', '/login', 'AuthController', 'index');
 $router->add('GET', '/volunteers', 'VolunteerController', 'index');

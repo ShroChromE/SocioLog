@@ -45,7 +45,6 @@
       <?php endforeach; ?>
     </tbody>
   </table>
-
 </div>
 
 <div class="mb-6">
