@@ -21,15 +21,13 @@ $router->add('GET',  '/admin/activities/create',      'ActivityController', 'cre
 $router->add('GET',  '/admin/activities/{id}/edit',   'ActivityController', 'edit');
 $router->add('POST', '/admin/activities/{id}/update', 'ActivityController', 'update');
 $router->add('POST', '/admin/activities/{id}/delete', 'ActivityController', 'destroy');
+$router->add('GET', '/register', 'AuthController', 'signup');
 $router->add('POST', '/register', 'AuthController', 'register');
 $router->add('POST', '/login', 'AuthController', 'login');
 $router->add('POST', '/activities/{id}/register',   'RegistrationController', 'store');
 $router->add('POST', '/activities/{id}/unregister', 'RegistrationController', 'destroy');
-<<<<<<< HEAD
 $router->add('GET', '/admin/activities/{id}/edit', 'ActivityController', 'edit');
-=======
 $router->add('GET', '/profile', 'ActivityController', 'profile');
->>>>>>> 91d3c88 (feat: implement-profi-dan-riwayat-siswa-page)
 
 $router->run();
 ?>
