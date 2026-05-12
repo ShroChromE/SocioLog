@@ -1,6 +1,6 @@
 <!-- Page Header -->
 <div class="bg-brown-dark rounded-2xl p-6 mb-5 flex items-center gap-4">
-  <span class="text-3xl">📋</span>
+  <img src="/assets/icons/list-active.svg" alt="List" class="w-12 h-12">
   <div>
     <h1 class="text-xl font-bold text-white">Daftar Kegiatan Sosial</h1>
     <p class="text-sm text-white mt-0.5">Temukan dan daftar kegiatan sosial yang sesuai dengan minat Anda</p>
@@ -10,7 +10,7 @@
 <!-- Search & Filter -->
 <div class="flex gap-3 mb-6">
   <div class="flex-1 flex items-center bg-[#F9F0DC] rounded-xl px-4 gap-2.5 border border-black">
-    <span class="text-sm text-[#999]">🔍</span>
+    <img src="/assets/icons/search.svg" alt="Search" class="w-5 h-5">
     <input id="searchInput" type="text" placeholder="Cari Kegiatan ..."
            class="flex-1 bg-transparent border-none outline-none text-sm text-brown-dark placeholder-[#b0956d] py-3" />
   </div>
@@ -35,9 +35,9 @@
     <div class="p-4 flex flex-col gap-2 flex-1">
       <h3 class="text-sm font-semibold text-white leading-snug"><?= ($activity['activity']) ?></h3>
       <div class="flex flex-col gap-1">
-        <div class="text-xs text-white">📅 <?= date('d F Y', strtotime($activity['date'])) ?></div>
-        <div class="text-xs text-white">🕐 <?= ($activity['time']) ?></div>
-        <div class="text-xs text-white">📍 <?= ($activity['location']) ?></div>
+        <div class="text-xs text-white"><img src="/assets/icons/calendar.svg" alt="Date" class="w-4 h-4 inline mr-1"> <?= date('d F Y', strtotime($activity['date'])) ?></div>
+        <div class="text-xs text-white"><img src="/assets/icons/clock.svg" alt="Time" class="w-4 h-4 inline mr-1"> <?= ($activity['time']) ?></div>
+        <div class="text-xs text-white"><img src="/assets/icons/location.svg" alt="Location" class="w-4 h-4 inline mr-1"> <?= ($activity['location']) ?></div>
       </div>
       <a href="/activities/<?= $activity['id'] ?>" class="mt-auto w-full py-2.5 bg-yellow hover:bg-yellow-hover text-black text-sm font-bold rounded-lg transition-colors active:scale-95 text-center">
         Lihat Detail

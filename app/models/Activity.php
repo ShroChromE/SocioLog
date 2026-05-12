@@ -6,7 +6,7 @@ use App\Core\Database;
 
 class Activity extends Database
 {
-    protected $table = 'kegiatan';
+    protected $table = 'activities';
 
     public function getActivities()
     {
