@@ -45,47 +45,60 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #7A5230; border-radius: 4px; }
   </style>
-</head>
+    </head>
 
-<body class="bg-brown-page text-cream flex h-screen overflow-hidden">
+    <body class="bg-brown-page text-cream flex h-screen overflow-hidden">
 
-  <!-- ── SIDEBAR ── -->
-  <aside class="w-52 bg-brown-sidebar flex flex-col py-5 flex-shrink-0 border-r border-black/10">
+      <!-- ── SIDEBAR ── -->
+      <aside class="w-52 bg-brown-sidebar flex flex-col py-5 flex-shrink-0 border-r border-black/10">
 
-    <div class="flex items-center gap-2.5 px-4 pb-4 border-b border-black/10 mb-3">
-      <div class="w-10 h-10 rounded-full bg-brown-light flex items-center justify-center text-lg flex-shrink-0">👤</div>
-      <div class="overflow-hidden">
-        <p class="text-sm font-bold text-[#3B2507] truncate"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?></p>
-        <p class="text-xs text-[#75573A] truncate">SMK Kristen Immanuel</p>
-      </div>
-    </div>
+        <div class="flex items-center gap-2.5 px-4 pb-4 border-b border-black/10 mb-3">
+          <div class="w-10 h-10 rounded-full bg-brown-light flex items-center justify-center text-lg flex-shrink-0">👤</div>
+          <div class="overflow-hidden">
+            <p class="text-sm font-bold text-[#3B2507] truncate"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?></p>
+            <p class="text-xs text-[#75573A] truncate">SMK Kristen Immanuel</p>
+          </div>
+        </div>
 
-    <nav class="flex flex-col gap-0.5 px-2.5">
-      <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <img src="/assets/icons/dashboard.svg" alt="Dashboard" class="w-8 h-8">
-        Dashboard
-      </a>
-      <a href="/activities" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-bold bg-brown-dark text-[#FFE15E] transition-colors">
-        <span class="w-5 text-center text-sm">📋</span> Daftar Kegiatan
-      </a>
-      <a href="/activities/manage" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <span class="w-5 text-center text-sm">🕐</span> Kelola Kegiatan
-      </a>
-      <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <img src="/assets/icons/register.svg" alt="Pendaftaran" class="w-8 h-8">
-        Pendaftaran
-      </a>
-      <a href="/profile" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <img src="/assets/icons/profile.svg" alt="Profil" class="w-8 h-8">
-        Profil
-      </a>
-      <a href="#" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507] transition-colors">
-        <img src="/assets/icons/reports.svg" alt="Laporan & Rekap" class="w-8 h-8">
-        Laporan & Rekap
-      </a>
-    </nav>
+          <?php $currentUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>
+          <nav class="flex flex-col gap-0.5 px-2.5">
+            <a href="/" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+              <?= $currentUri === '/' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+              <img src="/assets/icons/<?= $currentUri === '/' ? 'dashboard-active.svg' : 'dashboard.svg' ?>" alt="Dashboard" class="w-8 h-8">
+              Dashboard
+            </a>
 
-  </aside>
+            <a href="/activities" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+              <?= $currentUri === '/activities' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+              <img src="/assets/icons/<?= $currentUri === '/activities' ? 'list-active.svg' : 'list.svg' ?>" alt="List" class="w-8 h-8">
+              Daftar Kegiatan
+            </a>
+
+            <a href="/admin/activities" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+              <?= $currentUri === '/admin/activities' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+              <img src="/assets/icons/<?= $currentUri === '/admin/activities' ? 'manage-active.svg' : 'manage.svg' ?>" alt="Manage" class="w-8 h-8">
+              Kelola Kegiatan
+            </a>
+
+            <a href="/pendaftaran" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+              <?= $currentUri === '/pendaftaran' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+              <img src="/assets/icons/<?= $currentUri === '/pendaftaran' ? 'register-active.svg' : 'register.svg' ?>" alt="Pendaftaran" class="w-8 h-8">
+              Pendaftaran
+            </a>
+
+            <a href="/profile" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+              <?= $currentUri === '/profile' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+              <img src="/assets/icons/<?= $currentUri === '/profile' ? 'profile-active.svg' : 'profile.svg' ?>" alt="Profil" class="w-8 h-8">
+              Profil
+            </a>
+
+            <a href="/reports" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+              <?= $currentUri === '/reports' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+              <img src="/assets/icons/<?= $currentUri === '/reports' ? 'reports-active.svg' : 'reports.svg' ?>" alt="Laporan & Rekap" class="w-8 h-8">
+              Laporan & Rekap
+            </a>
+        </nav>
+     </aside>
 
   <!-- ── PAGE CONTENT ── -->
   <main class="flex-1 bg-brown-main overflow-y-auto p-7">

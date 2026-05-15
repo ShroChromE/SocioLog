@@ -64,6 +64,6 @@
 
   <div class="flex flex-wrap gap-3 pt-2">
     <button type="submit" class="bg-[#5C3D1E] hover:bg-[#7A5230] text-white font-bold text-sm px-5 py-2.5 rounded-xl">Buat</button>
-    <a href="/activities/manage" class="bg-[#D4B896] hover:bg-[#caa87d] text-[#3B2507] font-bold text-sm px-5 py-2.5 rounded-xl">Batal</a>
+    <a href="/admin/activities" class="bg-[#D4B896] hover:bg-[#caa87d] text-[#3B2507] font-bold text-sm px-5 py-2.5 rounded-xl">Batal</a>
   </div>
 </form>

@@ -1,7 +1,6 @@
 <?php
 namespace App\Models;
 
-require_once '../app/core/Database.php';
 use App\Core\Database;
 
 class Registration extends Database
@@ -39,7 +38,7 @@ class Registration extends Database
     {
         $query = "SELECT k.*, r.registered_at 
                   FROM {$this->table} r
-                  JOIN kegiatan k ON r.activity_id = k.id
+                  JOIN activities k ON r.activity_id = k.id
                   WHERE r.user_id = ?
                   ORDER BY r.registered_at DESC";
         $stmt = $this->connection->prepare($query);

@@ -9,7 +9,7 @@
 <hr class="border-[#D4B896] mb-5">
 
 <div class="mb-5">
-  <a href="/activities/create"
+  <a href="/admin/activities/create"
     class="inline-flex items-center gap-2 bg-[#5C3D1E] hover:bg-[#7A5230] active:scale-95 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all duration-200">
     + Buat
   </a>
@@ -26,7 +26,8 @@
         <th class="px-4 py-3 text-center text-sm font-bold text-white">Aksi</th>
       </tr>
     </thead>
-    <tbody>
+
+      <!-- Row 1 -->
       <?php foreach ($activities as $activity): ?>
       <tr class="bg-[#F9F0DC] hover:bg-[#eedcb5] transition-colors duration-150">
         <td class="px-4 py-3 text-sm font-bold text-[#5C3D1E] border-t border-[#D4B896]"><?= htmlspecialchars($activity['activity'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
@@ -36,13 +37,7 @@
           <span class="inline-block text-xs font-bold px-3 py-0.5 rounded-full bg-[#e8d5b0] text-[#5C3D1E]">Aktif</span>
         </td>
         <td class="px-4 py-3 text-center border-t border-[#D4B896]">
-          <div class="flex justify-center gap-2">
-            <a href="/activities/<?= (int) $activity['id'] ?>/edit" class="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#5C3D1E] hover:bg-[#7A5230] px-3 py-1.5 rounded-lg transition-colors">Edit</a>
-            <form method="POST" action="/activities/<?= (int) $activity['id'] ?>/delete" onsubmit="return confirm('Hapus kegiatan ini?')">
-              <button type="submit" class="inline-flex items-center gap-1 text-xs font-bold text-white bg-red-700 hover:bg-red-800 px-3 py-1.5 rounded-lg transition-colors">Hapus</button>
-            </form>
-          </div>
-        </td>
+          <a href="/admin/activities/<?= $activity['id'] ?>/edit" class="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#5C3D1E] hover:bg-[#7A5230] px-3 py-1.5 rounded-lg transition-colors">✏️ Edit</a>
       </tr>
       <?php endforeach; ?>
 
