@@ -1,90 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Kegiatan</title>
-</head>
-<body class="bg-[#e6ddbd] font-sans">
+<?php if (!$activity): ?>
+  <div class="bg-[#F9F0DC] border border-[#D4B896] rounded-xl p-6 text-[#5C3D1E]">
+    <h1 class="text-xl font-bold mb-2">Kegiatan tidak ditemukan</h1>
+    <a href="/activities/manage" class="font-bold underline">Kembali ke kelola kegiatan</a>
+  </div>
+<?php return; endif; ?>
 
-<div class="max-w-xl mx-auto mt-10">
-    
-    <!-- Judul -->
-    <h2 class="text-black text-center font-bold mb-2">Edit Kegiatan Anda</h2>
-
-    <!-- Form -->
-    <form method="post" class="bg-[#f4d96b] rounded-xl overflow-hidden shadow-md">
-
-        <!-- Nama -->
-        <div class="flex border-b border-black">
-            <div class="w-32 bg-[#7a5a3a] text-white font-bold p-3">
-                Nama
-            </div>
-            <div class="flex-1 p-2">
-                <input type="text" name="nama"
-                    class="w-full p-2 rounded-md border border-black outline-none text-black">
-            </div>
-        </div>
-
-        <!-- Tanggal -->
-        <div class="flex border-b border-black">
-            <div class="w-32 bg-[#7a5a3a] text-white font-bold p-3">
-                Tanggal
-            </div>
-            <div class="flex-1 p-2">
-                <input type="date" name="tanggal"
-                    class="w-full p-2 rounded-md border border-black outline-none text-black">
-            </div>
-        </div>
-
-        <!-- Kuota -->
-        <div class="flex border-b border-black">
-            <div class="w-32 bg-[#7a5a3a] text-white font-bold p-3">
-                Kuota
-            </div>
-            <div class="flex-1 p-2">
-                <input type="number" name="kuota"
-                    class="w-full p-2 rounded-md border border-black outline-none text-black">
-            </div>
-        </div>
-
-        <!-- Status -->
-        <div class="flex">
-            <div class="w-32 bg-[#7a5a3a] text-white font-bold p-3">
-                Status
-            </div>
-            <div class="flex-1 p-2">
-                <input type="text" name="status"
-                    class="w-full p-2 rounded-md border border-black outline-none text-black">
-            </div>
-        </div>
-
-    </form>
-
-    <!-- Tombol -->
-    <div class="mt-4 flex gap-3">
-        <button type="submit" form=""
-            class="px-6 py-2 rounded-lg bg-[#f4d96b] border border-black font-semibold">
-            Selesai
-        </button>
-        <button type="reset"
-            class="px-6 py-2 rounded-lg bg-[#7a5a3a] text-white font-semibold">
-            Batal
-        </button>
-    </div>
-
-    <!-- Output PHP -->
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        echo "<div class='mt-5 p-3 bg-white rounded shadow'>";
-        echo "<b>Hasil Input:</b><br>";
-        echo "Nama: " . $_POST['nama'] . "<br>";
-        echo "Tanggal: " . $_POST['tanggal'] . "<br>";
-        echo "Kuota: " . $_POST['kuota'] . "<br>";
-        echo "Status: " . $_POST['status'];
-        echo "</div>";
-    }
-    ?>
-
+<div class="bg-[#5C3D1E] rounded-2xl p-6 mb-5">
+  <h1 class="text-xl font-bold text-white">Edit Kegiatan Sosial</h1>
+  <p class="text-sm text-white mt-0.5">Perbarui semua informasi kegiatan sosial</p>
 </div>
-</html>
+
+<form method="POST" action="/activities/<?= (int) $activity['id'] ?>/update" class="bg-[#F9F0DC] border border-[#D4B896] rounded-xl p-5 space-y-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <label class="block">
+      <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Nama Kegiatan</span>
+      <input required type="text" name="activity" value="<?= htmlspecialchars($activity['activity'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]">
+    </label>
+
+    <label class="block">
+      <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Thumbnail URL</span>
+      <input type="text" name="thumbnail" value="<?= htmlspecialchars($activity['thumbnail'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]">
+    </label>
+
+    <label class="block">
+      <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Tanggal</span>
+      <input required type="date" name="date" value="<?= htmlspecialchars($activity['date'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]">
+    </label>
+
+    <label class="block">
+      <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Waktu</span>
+      <input required type="text" name="time" value="<?= htmlspecialchars($activity['time'] ?? '', ENT_QUOTES, 'UTF-8') ?>" placeholder="08.00 - 12.00" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]">
+    </label>
+
+    <label class="block md:col-span-2">
+      <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Lokasi</span>
+      <input required type="text" name="location" value="<?= htmlspecialchars($activity['location'] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]">
+    </label>
+  </div>
+
+  <label class="block">
+    <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Deskripsi</span>
+    <textarea required name="description" rows="4" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]"><?= htmlspecialchars($activity['description'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+  </label>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <label class="block">
+      <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Tujuan</span>
+      <textarea name="goal" rows="5" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]"><?= htmlspecialchars($activity['goal'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+    </label>
+
+    <label class="block">
+      <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Rangkaian Acara</span>
+      <textarea name="event" rows="5" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]"><?= htmlspecialchars($activity['event'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+    </label>
+  </div>
+
+  <label class="block">
+    <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Kuota</span>
+    <input required type="number" name="quota" min="1" value="<?= htmlspecialchars((string) ($activity['quota'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]">
+  </label>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <?php for ($i = 1; $i <= 4; $i++): ?>
+      <label class="block">
+        <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Dokumentasi <?= $i ?> URL</span>
+        <input type="text" name="documentation-<?= $i ?>" value="<?= htmlspecialchars($activity["documentation-$i"] ?? '', ENT_QUOTES, 'UTF-8') ?>" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]">
+      </label>
+    <?php endfor; ?>
+  </div>
+
+  <div class="flex flex-wrap gap-3 pt-2">
+    <button type="submit" class="bg-[#5C3D1E] hover:bg-[#7A5230] text-white font-bold text-sm px-5 py-2.5 rounded-xl">Simpan</button>
+    <a href="/admin/activities" class="bg-[#D4B896] hover:bg-[#caa87d] text-[#3B2507] font-bold text-sm px-5 py-2.5 rounded-xl">Batal</a>
+  </div>
+</form>
