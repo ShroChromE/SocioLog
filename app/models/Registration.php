@@ -38,7 +38,7 @@ class Registration extends Database
     {
         $query = "SELECT k.*, r.registered_at 
                   FROM {$this->table} r
-                  JOIN activities k ON r.activity_id = k.id
+                  JOIN kegiatan k ON r.activity_id = k.id
                   WHERE r.user_id = ?
                   ORDER BY r.registered_at DESC";
         $stmt = $this->connection->prepare($query);

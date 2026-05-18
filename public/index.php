@@ -17,6 +17,7 @@ $router->add('GET', '/activities/create', 'ActivityController', 'create');
 $router->add('GET', '/activities/{id}', 'ActivityController', 'show');
 $router->add('GET', '/admin/activities', 'ActivityController', 'manage');
 $router->add('GET', '/admin/activities/create', 'ActivityController', 'create');
+$router->add('POST', '/admin/activities', 'ActivityController', 'store');
 $router->add('GET', '/admin/activities/{id}/edit', 'ActivityController', 'edit');
 $router->add('POST', '/admin/activities/{id}/update', 'ActivityController', 'update');
 $router->add('POST', '/admin/activities/{id}/delete', 'ActivityController', 'destroy');

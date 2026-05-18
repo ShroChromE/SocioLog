@@ -1,7 +1,7 @@
 <?php if (!$activity): ?>
   <div class="bg-[#F9F0DC] border border-[#D4B896] rounded-xl p-6 text-[#5C3D1E]">
     <h1 class="text-xl font-bold mb-2">Kegiatan tidak ditemukan</h1>
-    <a href="/activities/manage" class="font-bold underline">Kembali ke kelola kegiatan</a>
+    <a href="/admin/activities" class="font-bold underline">Kembali ke kelola kegiatan</a>
   </div>
 <?php return; endif; ?>
 
@@ -10,7 +10,7 @@
   <p class="text-sm text-white mt-0.5">Perbarui semua informasi kegiatan sosial</p>
 </div>
 
-<form method="POST" action="/activities/<?= (int) $activity['id'] ?>/update" class="bg-[#F9F0DC] border border-[#D4B896] rounded-xl p-5 space-y-4">
+<form method="POST" action="/admin/activities/<?= (int) $activity['id'] ?>/update" class="bg-[#F9F0DC] border border-[#D4B896] rounded-xl p-5 space-y-4">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <label class="block">
       <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Nama Kegiatan</span>
