@@ -24,7 +24,6 @@ class User extends Database
         $password = password_hash($data['password'], PASSWORD_BCRYPT);
         $role     = 'volunteer';
 
-        // check if email already exists
         $check = $this->findByEmail($email);
         if ($check) {
             return 'email_taken';
@@ -36,5 +35,23 @@ class User extends Database
         $stmt->execute();
 
         return $stmt->affected_rows > 0 ? 'success' : 'failed';
+    }
+
+    public function getProfile(int $id)
+    {
+        $query = "SELECT * FROM {$this->table} WHERE id = ? LIMIT 1";
+        $stmt  = $this->connection->prepare($query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function updateProfilePicture(int $id, string $path)
+    {
+        $query = "UPDATE {$this->table} SET profile_picture = ? WHERE id = ?";
+        $stmt  = $this->connection->prepare($query);
+        $stmt->bind_param('si', $path, $id);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
     }
 }

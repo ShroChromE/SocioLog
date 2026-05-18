@@ -100,8 +100,7 @@
 </div>
 
 <!-- Register Button -->
-<button class="w-full py-3.5 bg-yellow hover:bg-yellow-hover text-black text-base font-bold rounded-xl transition-colors active:scale-95 mb-2">
-  <?php if (isset($_SESSION['user_id'])): ?>
+<?php if (isset($_SESSION['user_id'])): ?>
   <?php
     $regModel = new \App\Models\Registration();
     $isRegistered = $regModel->isRegistered($_SESSION['user_id'], $activity['id']);
@@ -121,10 +120,9 @@
       </button>
     </form>
   <?php endif; ?>
-  <?php else: ?>
+<?php else: ?>
   <a href="/login"
-      class="block w-full py-3.5 bg-yellow hover:bg-yellow-hover text-black text-base font-bold rounded-xl transition-colors text-center mb-2">
+     class="block w-full py-3.5 bg-yellow hover:bg-yellow-hover text-black text-base font-bold rounded-xl transition-colors text-center mb-2">
     Login untuk Mendaftar
   </a>
-  <?php endif; ?>
-</button>
+<?php endif; ?>

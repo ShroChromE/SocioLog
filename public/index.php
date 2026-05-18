@@ -26,7 +26,8 @@ $router->add('POST', '/register', 'AuthController', 'register');
 $router->add('POST', '/login', 'AuthController', 'login');
 $router->add('POST', '/activities/{id}/register', 'RegistrationController', 'store');
 $router->add('POST', '/activities/{id}/unregister', 'RegistrationController', 'destroy');
-$router->add('GET', '/profile', 'ActivityController', 'profile');
+$router->add('GET', '/profile', 'ProfileController', 'index');
+$router->add('POST', '/profile/upload', 'ProfileController', 'upload');
 
 $router->run();
 ?>

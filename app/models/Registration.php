@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+require_once '../app/core/Database.php';
+
 use App\Core\Database;
 
 class Registration extends Database
@@ -36,11 +38,11 @@ class Registration extends Database
     // Get all activities a volunteer has registered for
     public function getActivitiesByUser(int $userId)
     {
-        $query = "SELECT k.*, r.registered_at 
-                  FROM {$this->table} r
-                  JOIN kegiatan k ON r.activity_id = k.id
-                  WHERE r.user_id = ?
-                  ORDER BY r.registered_at DESC";
+        $query = "SELECT a.*, r.registered_at, r.status
+                FROM {$this->table} r
+                JOIN activities a ON r.activity_id = a.id
+                WHERE r.user_id = ?
+                ORDER BY r.registered_at DESC";
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param('i', $userId);
         $stmt->execute();
@@ -48,9 +50,24 @@ class Registration extends Database
         $result = $stmt->get_result();
         $activities = [];
         while ($row = $result->fetch_assoc()) {
+            $row['jam'] = $this->calculateHours($row['time']);
             $activities[] = $row;
         }
         return $activities;
+    }
+    private function calculateHours(string $time): float
+    {
+        $time = trim($time);
+        $parts = preg_split('/\s*[\x{2013}-]\s*/u', $time);
+        if (count($parts) !== 2) return 0;
+
+        $start = strtotime(trim($parts[0]));
+        $end   = strtotime(trim($parts[1]));
+
+        if (!$start || !$end) return 0;
+
+        $diff = ($end - $start) / 3600;
+        return $diff > 0 ? round($diff, 1) : 0;
     }
 
     // Get all volunteers registered to an activity
