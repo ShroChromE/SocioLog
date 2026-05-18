@@ -1,0 +1,37 @@
+CREATE DATABASE IF NOT EXISTS sociolog;
+
+USE sociolog;
+
+CREATE TABLE IF NOT EXISTS kegiatan (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  activity VARCHAR(255) NOT NULL UNIQUE,
+  thumbnail VARCHAR(255) NOT NULL,
+  date DATE NOT NULL,
+  time VARCHAR(255) NOT NULL,
+  location VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  goal TEXT NOT NULL,
+  event TEXT NOT NULL,
+  quota INT NOT NULL,
+  `documentation-1` VARCHAR(255) NOT NULL,
+  `documentation-2` VARCHAR(255) NOT NULL,
+  `documentation-3` VARCHAR(255) NOT NULL,
+  `documentation-4` VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(50) NOT NULL DEFAULT 'volunteer',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS registrations (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  activity_id INT NOT NULL,
+  registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY unique_user_activity (user_id, activity_id)
+);

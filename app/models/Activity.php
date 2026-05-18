@@ -6,7 +6,7 @@ use App\Core\Database;
 
 class Activity extends Database
 {
-    protected $table = 'activities';
+    protected $table = 'kegiatan';
 
     public function getActivities()
     {
@@ -59,7 +59,7 @@ class Activity extends Database
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            header('Location: /activities/manage');
+            header('Location: /admin/activities');
             exit();
         } else {
             echo "Gagal menambahkan kegiatan.";
@@ -90,7 +90,7 @@ class Activity extends Database
         $stmt->bind_param('ssssssssissssi', $activity, $thumbnail, $date, $time, $location, $description, $goal, $event, $quota, $doc1, $doc2, $doc3, $doc4, $id);
         $stmt->execute();
 
-        header('Location: /activities/manage');
+        header('Location: /admin/activities');
         exit();
     }
 
@@ -102,7 +102,7 @@ class Activity extends Database
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            header('Location: /activities/manage');
+            header('Location: /admin/activities');
             exit();
         } else {
             echo "Gagal menghapus kegiatan.";

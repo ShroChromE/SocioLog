@@ -3,7 +3,7 @@
   <p class="text-sm text-white mt-0.5">Tambahkan kegiatan baru ke halaman kelola kegiatan</p>
 </div>
 
-<form method="POST" action="/activities" class="bg-[#F9F0DC] border border-[#D4B896] rounded-xl p-5 space-y-4">
+<form method="POST" action="/admin/activities" class="bg-[#F9F0DC] border border-[#D4B896] rounded-xl p-5 space-y-4">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <label class="block">
       <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Nama Kegiatan</span>

@@ -1,5 +1,5 @@
 <div class="bg-[#5C3D1E] rounded-2xl p-6 mb-5 flex items-center gap-4">
-  <span class="text-3xl">🕐</span>
+  <span class="text-3xl text-white">+</span>
   <div>
     <h1 class="text-xl font-bold text-white">Kelola Kegiatan Sosial</h1>
     <p class="text-sm text-white mt-0.5">Buatlah dan atur kegiatan sosial yang sesuai dengan minat anda</p>
@@ -26,8 +26,7 @@
         <th class="px-4 py-3 text-center text-sm font-bold text-white">Aksi</th>
       </tr>
     </thead>
-
-      <!-- Row 1 -->
+    <tbody>
       <?php foreach ($activities as $activity): ?>
       <tr class="bg-[#F9F0DC] hover:bg-[#eedcb5] transition-colors duration-150">
         <td class="px-4 py-3 text-sm font-bold text-[#5C3D1E] border-t border-[#D4B896]"><?= htmlspecialchars($activity['activity'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
@@ -37,7 +36,8 @@
           <span class="inline-block text-xs font-bold px-3 py-0.5 rounded-full bg-[#e8d5b0] text-[#5C3D1E]">Aktif</span>
         </td>
         <td class="px-4 py-3 text-center border-t border-[#D4B896]">
-          <a href="/admin/activities/<?= $activity['id'] ?>/edit" class="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#5C3D1E] hover:bg-[#7A5230] px-3 py-1.5 rounded-lg transition-colors">✏️ Edit</a>
+          <a href="/admin/activities/<?= (int) $activity['id'] ?>/edit" class="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#5C3D1E] hover:bg-[#7A5230] px-3 py-1.5 rounded-lg transition-colors">Edit</a>
+        </td>
       </tr>
       <?php endforeach; ?>
 
