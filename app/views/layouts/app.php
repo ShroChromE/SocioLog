@@ -74,9 +74,9 @@
               Daftar Kegiatan
             </a>
 
-            <a href="/pendaftaran" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
-              <?= $currentUri === '/pendaftaran' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
-              <img src="/assets/icons/<?= $currentUri === '/pendaftaran' ? 'register-active.svg' : 'register.svg' ?>" alt="Pendaftaran" class="w-8 h-8">
+            <a href="/admin/verification" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+              <?= $currentUri === '/admin/verification' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+              <img src="/assets/icons/<?= $currentUri === '/admin/verification' ? 'register-active.svg' : 'register.svg' ?>" alt="Pendaftaran" class="w-8 h-8">
               Pendaftaran
             </a>
 

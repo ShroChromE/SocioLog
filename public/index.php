@@ -28,6 +28,8 @@ $router->add('POST', '/activities/{id}/register', 'RegistrationController', 'sto
 $router->add('POST', '/activities/{id}/unregister', 'RegistrationController', 'destroy');
 $router->add('GET', '/profile', 'ProfileController', 'index');
 $router->add('POST', '/profile/upload', 'ProfileController', 'upload');
+$router->add('GET', '/admin/verification','ActivityController', 'verification');
+
 
 $router->run();
 ?>

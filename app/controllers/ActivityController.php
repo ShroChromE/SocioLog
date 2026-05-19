@@ -44,6 +44,16 @@ class ActivityController extends Controller
             'activities' => $activities
         ]);
     }
+
+     public function verification()
+    {
+        $activityModel = new Activity();
+        $activities = $activityModel->getActivities();
+
+        $this->view('admin.verification', [
+            'activities' => $activities
+        ]);
+    }
     public function profile()
 {
     $activityModel = new Activity();
