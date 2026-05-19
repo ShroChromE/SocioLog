@@ -23,26 +23,18 @@
 
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; overflow: hidden; height: 100%; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; touch-action: none; overflow: hidden; }
 
-    /* prevent zoom on ctrl+scroll */
-    body { touch-action: none; }
-
-    .col-wrap {
-      flex: 1;
-      overflow: hidden;
-      height: 100vh; /* full viewport height, no clipping */
-    }
+    .col-wrap { flex: 1; overflow: hidden; height: 100vh; }
 
     .scroll-col {
       display: flex;
       flex-direction: column;
       gap: 14px;
-      padding: 7px 0; /* half of gap so loop is truly seamless */
+      padding: 7px 0;
     }
 
-    /* seamless: animate exactly half the total height */
     .scroll-up   { animation: scrollUp 20s linear infinite; }
     .scroll-down { animation: scrollDown 20s linear infinite; }
 
@@ -73,21 +65,21 @@
     .sq img { width: 100%; height: 100%; object-fit: cover; }
 
     input:-webkit-autofill, input:-webkit-autofill:focus {
-        -webkit-box-shadow: 0 0 0 100px #FFF6D0 inset !important;
-        box-shadow: 0 0 0 100px #FFF6D0 inset !important;
-        -webkit-text-fill-color: #75573A !important;
+      -webkit-box-shadow: 0 0 0 100px #FFF6D0 inset !important;
+      -webkit-text-fill-color: #75573A !important;
     }
 
-    input:-moz-autofill {
-        background-color: #FFF6D0 !important;
+    /* allow scroll if card is taller than screen */
+    @media (max-width: 767px) {
+      html, body { overflow-y: auto; height: auto; }
     }
   </style>
 </head>
 
-<body class="bg-yellow-light flex" style="height:100vh; overflow:hidden;">
+<body class="bg-yellow-light flex" style="min-height:100vh;">
 
-  <!-- ── LEFT: 3 Scrolling Columns ── -->
-  <div class="flex gap-3 flex-shrink-0" style="width: 48vw; padding: 0 12px; overflow:hidden;">
+  <!-- ── LEFT: Scrolling Columns (hidden on mobile) ── -->
+  <div class="hidden md:flex gap-3 flex-shrink-0" style="width: 45vw; padding: 0 12px; overflow:hidden; height:100vh;">
 
     <!-- Column 1: DOWN -->
     <div class="col-wrap">
@@ -95,7 +87,6 @@
         <?php for ($i = 0; $i < 10; $i++): ?>
           <div class="sq">🖼</div>
         <?php endfor; ?>
-        <!-- duplicate for seamless loop -->
         <?php for ($i = 0; $i < 10; $i++): ?>
           <div class="sq">🖼</div>
         <?php endfor; ?>
@@ -129,90 +120,92 @@
   </div>
 
   <!-- ── RIGHT: Login Card ── -->
-<div class="flex-1 flex items-center justify-center">
-  <div class="w-full" style="max-width: 38rem; padding: 0 0.25rem">
+  <div class="flex-1 flex items-center justify-center px-4 py-8 md:py-0">
+    <div class="w-full" style="max-width: 38rem;">
 
-    <!-- Logo Placeholder -->
-    <div class="flex justify-center mb-6">
-      <div class="rounded-2xl bg-yellow-100 border-2 border-brown-mid flex items-center justify-center shadow-md"
-           style="width: 6rem; height: 6rem; font-size: 3rem;">
-        "S"
+      <!-- Logo -->
+      <div class="flex justify-center mb-6">
+        <img src="/assets/logo-full.png" alt="SocioLog Logo" class="w-32 md:w-40">
       </div>
-    </div>
 
-    <!-- Card -->
-    <div class="bg-yellow-200 border-2 border-brown-mid rounded-2xl shadow-lg"
-         style="padding: 3rem 3rem;">
+      <!-- Card -->
+      <div class="bg-yellow-200 border-2 border-brown-mid rounded-2xl shadow-lg px-6 py-8 md:px-12 md:py-10">
 
-      <h1 class="font-extrabold text-brown-mid leading-tight mb-8"
-          style="font-size: 2.25rem; text-shadow: 2px 2px 0px rgba(90,50,10,0.2)">
-        It's Great Having<br>You Back
-      </h1>
+        <h1 class="font-extrabold text-brown-mid leading-tight mb-6 text-2xl md:text-4xl"
+            style="text-shadow: 2px 2px 0px rgba(90,50,10,0.2)">
+          It's Great Having<br>You Back
+        </h1>
 
-      <form method="POST" action="/login">
-
-        <div class="mb-5">
-          <label class="block font-bold text-brown-mid mb-2" style="font-size: 1.1rem;">E-Mail</label>
-          <input type="text" name="login" class="w-full bg-yellow-100 border border-brown-mid rounded-xl text-brown-mid outline-none focus:ring-2 focus:ring-brown-mid/40" style="font-size: 1rem; padding: 0.85rem 1rem;" />
-        </div>
-
-        <div class="mb-5">
-          <label class="block font-bold text-brown-mid mb-2" style="font-size: 1.1rem;">Password</label>
-          <div class="relative">
-            <input id="passwordInput" type="password" name="password" placeholder="Enter password"
-                   class="w-full bg-yellow-100 border border-brown-mid rounded-xl text-brown-mid placeholder-brown-mid/60 outline-none focus:ring-2 focus:ring-brown-mid/40"
-                   style="font-size: 1rem; padding: 0.85rem 3rem 0.85rem 1rem;" />
-            <button type="button" onclick="togglePassword()"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 text-brown-mid/70 hover:text-brown-mid"
-                    style="font-size: 1.25rem;">
-              👁
-            </button>
+        <?php if (!empty($error)): ?>
+          <div class="mb-5 px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded-xl text-sm">
+            <?= htmlspecialchars($error) ?>
           </div>
-        </div>
+        <?php endif; ?>
 
-        <div class="flex items-center justify-between mb-8 text-brown-mid" style="font-size: 0.95rem;">
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" name="remember" class="rounded border-brown-mid accent-brown-mid"
-                   style="width: 1rem; height: 1rem;" />
-            Remember me
-          </label>
-          <a href="#" class="hover:underline">Forgot password?</a>
-        </div>
+        <?php if (($_GET['msg'] ?? '') === 'registered'): ?>
+          <div class="mb-5 px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-xl text-sm">
+            Akun berhasil dibuat! Silakan login.
+          </div>
+        <?php endif; ?>
 
-        <button type="submit"
-                class="w-full bg-yellow-100 border border-brown-mid text-brown-mid font-bold rounded-xl hover:bg-yellow-300 transition-colors active:scale-95"
-                style="padding: 1rem; font-size: 1.1rem;">
-          Sign in
-        </button>
+        <form method="POST" action="/login">
 
-        <!-- Divider -->
+          <div class="mb-4">
+            <label class="block font-bold text-brown-mid mb-2 text-base md:text-lg">E-Mail</label>
+            <input type="text" name="login"
+                   class="w-full bg-yellow-100 border border-brown-mid rounded-xl text-brown-mid outline-none focus:ring-2 focus:ring-brown-mid/40 text-sm md:text-base"
+                   style="padding: 0.75rem 1rem;" />
+          </div>
+
+          <div class="mb-4">
+            <label class="block font-bold text-brown-mid mb-2 text-base md:text-lg">Password</label>
+            <div class="relative">
+              <input id="passwordInput" type="password" name="password" placeholder="Enter password"
+                     class="w-full bg-yellow-100 border border-brown-mid rounded-xl text-brown-mid placeholder-brown-mid/60 outline-none focus:ring-2 focus:ring-brown-mid/40 text-sm md:text-base"
+                     style="padding: 0.75rem 3rem 0.75rem 1rem;" />
+              <button type="button" onclick="togglePassword()"
+                      class="absolute right-3 top-1/2 -translate-y-1/2 text-brown-mid/70 hover:text-brown-mid text-lg">
+                👁
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mb-6 text-brown-mid text-sm md:text-base">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" name="remember" class="rounded border-brown-mid accent-brown-mid w-4 h-4" />
+              Remember me
+            </label>
+            <a href="#" class="hover:underline">Forgot password?</a>
+          </div>
+
+          <button type="submit"
+                  class="w-full bg-yellow-100 border border-brown-mid text-brown-mid font-bold rounded-xl hover:bg-yellow-300 transition-colors active:scale-95 text-base md:text-lg"
+                  style="padding: 0.85rem;">
+            Sign in
+          </button>
+
           <div class="flex items-center gap-3 my-4">
             <div class="flex-1 border-t border-brown-mid/40"></div>
             <span class="text-brown-mid/60 font-semibold text-sm">OR</span>
             <div class="flex-1 border-t border-brown-mid/40"></div>
           </div>
 
-          <!-- Sign Up Link -->
-          <p class="text-center text-brown-mid" style="font-size: 0.95rem;">
+          <p class="text-center text-brown-mid text-sm md:text-base">
             Don't have an account?
             <a href="/register" class="font-bold underline hover:text-brown-dark transition-colors">Sign Up here</a>
           </p>
 
-
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
   <script>
     function togglePassword() {
       const input = document.getElementById('passwordInput');
       input.type = input.type === 'password' ? 'text' : 'password';
     }
-
-    // prevent ctrl+scroll zoom
     window.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
-    // prevent ctrl+plus/minus zoom
     window.addEventListener('keydown', e => {
       if (e.ctrlKey && ['+', '-', '=', '_', '0'].includes(e.key)) e.preventDefault();
     });

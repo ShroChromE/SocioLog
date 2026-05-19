@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-screen overflow-hidden">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -23,14 +23,10 @@
 
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; overflow: hidden; height: 100%; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; touch-action: none; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; touch-action: none; overflow: hidden; }
 
-    .col-wrap {
-      flex: 1;
-      overflow: hidden;
-      height: 100vh;
-    }
+    .col-wrap { flex: 1; overflow: hidden; height: 100vh; }
 
     .scroll-col {
       display: flex;
@@ -69,43 +65,37 @@
     .sq img { width: 100%; height: 100%; object-fit: cover; }
 
     input:-webkit-autofill, input:-webkit-autofill:focus {
-        -webkit-box-shadow: 0 0 0 100px #FFF6D0 inset !important;
-        box-shadow: 0 0 0 100px #FFF6D0 inset !important;
-        -webkit-text-fill-color: #75573A !important;
+      -webkit-box-shadow: 0 0 0 100px #FFF6D0 inset !important;
+      -webkit-text-fill-color: #75573A !important;
     }
 
-    input:-moz-autofill {
-        background-color: #FFF6D0 !important;
+    @media (max-width: 767px) {
+      html, body { overflow-y: auto; height: auto; }
     }
   </style>
 </head>
 
-<body class="bg-yellow-light flex" style="height:100vh; overflow:hidden;">
+<body class="bg-yellow-light flex" style="min-height:100vh;">
 
   <!-- ── LEFT: Register Card ── -->
-  <div class="flex-1 flex items-center justify-center" style="overflow-y: auto;">
-    <div class="w-full" style="max-width: 38rem; padding: 1.5rem 0.25rem;">
+  <div class="flex-1 flex items-center justify-center px-4 py-8 md:py-0">
+    <div class="w-full" style="max-width: 38rem;">
 
       <!-- Logo -->
       <div class="flex justify-center mb-6">
-        <div class="rounded-2xl bg-yellow-DEFAULT border-2 border-brown-mid flex items-center justify-center shadow-md"
-             style="width: 6rem; height: 6rem; font-size: 3rem;">
-          "S"
-        </div>
+        <img src="/assets/logo-full.png" alt="SocioLog Logo" class="w-32 md:w-40">  
       </div>
 
       <!-- Card -->
-      <div class="bg-yellow-200 border-2 border-brown-mid rounded-2xl shadow-lg"
-           style="padding: 2.5rem 3rem;">
+      <div class="bg-yellow-200 border-2 border-brown-mid rounded-2xl shadow-lg px-6 py-8 md:px-12 md:py-10">
 
-        <h1 class="font-extrabold text-brown-mid leading-tight mb-6"
-            style="font-size: 2.25rem; text-shadow: 2px 2px 0px rgba(90,50,10,0.2)">
+        <h1 class="font-extrabold text-brown-mid leading-tight mb-6 text-2xl md:text-4xl"
+            style="text-shadow: 2px 2px 0px rgba(90,50,10,0.2)">
           Welcome to<br>SocioLog
         </h1>
 
         <?php if (!empty($error)): ?>
-          <div class="mb-5 px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded-xl"
-               style="font-size: 0.9rem;">
+          <div class="mb-5 px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded-xl text-sm">
             <?= htmlspecialchars($error) ?>
           </div>
         <?php endif; ?>
@@ -113,31 +103,32 @@
         <form method="POST" action="/register">
 
           <!-- Email -->
-          <div class="mb-5">
-            <label class="block font-bold text-brown-mid mb-2" style="font-size: 1.1rem;">Email</label>
+          <div class="mb-4">
+            <label class="block font-bold text-brown-mid mb-2 text-base md:text-lg">Email</label>
             <input type="email" name="email" placeholder="Enter Email"
-                   class="w-full bg-yellow-light border border-brown-mid rounded-xl text-brown-mid placeholder-brown-mid/60 outline-none focus:ring-2 focus:ring-brown-mid/40"
-                   style="font-size: 1rem; padding: 0.85rem 1rem;" />
+                   value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
+                   class="w-full bg-yellow-light border border-brown-mid rounded-xl text-brown-mid placeholder-brown-mid/60 outline-none focus:ring-2 focus:ring-brown-mid/40 text-sm md:text-base"
+                   style="padding: 0.75rem 1rem;" />
           </div>
 
           <!-- Username -->
-          <div class="mb-5">
-            <label class="block font-bold text-brown-mid mb-2" style="font-size: 1.1rem;">Username</label>
+          <div class="mb-4">
+            <label class="block font-bold text-brown-mid mb-2 text-base md:text-lg">Username</label>
             <input type="text" name="name" placeholder="Enter Username"
-                   class="w-full bg-yellow-light border border-brown-mid rounded-xl text-brown-mid placeholder-brown-mid/60 outline-none focus:ring-2 focus:ring-brown-mid/40"
-                   style="font-size: 1rem; padding: 0.85rem 1rem;" />
+                   value="<?= htmlspecialchars($_POST['name'] ?? '') ?>"
+                   class="w-full bg-yellow-light border border-brown-mid rounded-xl text-brown-mid placeholder-brown-mid/60 outline-none focus:ring-2 focus:ring-brown-mid/40 text-sm md:text-base"
+                   style="padding: 0.75rem 1rem;" />
           </div>
 
           <!-- Password -->
-          <div class="mb-8">
-            <label class="block font-bold text-brown-mid mb-2" style="font-size: 1.1rem;">Password</label>
+          <div class="mb-6">
+            <label class="block font-bold text-brown-mid mb-2 text-base md:text-lg">Password</label>
             <div class="relative">
               <input id="passwordInput" type="password" name="password" placeholder="Enter Password"
-                     class="w-full bg-yellow-light border border-brown-mid rounded-xl text-brown-mid placeholder-brown-mid/60 outline-none focus:ring-2 focus:ring-brown-mid/40"
-                     style="font-size: 1rem; padding: 0.85rem 3rem 0.85rem 1rem;" />
+                     class="w-full bg-yellow-light border border-brown-mid rounded-xl text-brown-mid placeholder-brown-mid/60 outline-none focus:ring-2 focus:ring-brown-mid/40 text-sm md:text-base"
+                     style="padding: 0.75rem 3rem 0.75rem 1rem;" />
               <button type="button" onclick="togglePassword()"
-                      class="absolute right-3 top-1/2 -translate-y-1/2 text-brown-mid/70 hover:text-brown-mid"
-                      style="font-size: 1.25rem;">
+                      class="absolute right-3 top-1/2 -translate-y-1/2 text-brown-mid/70 hover:text-brown-mid text-lg">
                 👁
               </button>
             </div>
@@ -145,9 +136,8 @@
 
           <!-- Sign Up Button -->
           <button type="submit"
-                  class="w-full bg-yellow-100 border border-brown-mid text-brown-mid font-bold rounded-xl hover:bg-yellow-300 transition-colors active:scale-95 mb-4"
-                  style="padding: 1rem; font-size: 1.1rem;
-                  href="/activities">
+                  class="w-full bg-yellow-100 border border-brown-mid text-brown-mid font-bold rounded-xl hover:bg-yellow-300 transition-colors active:scale-95 mb-4 text-base md:text-lg"
+                  style="padding: 0.85rem;">
             Sign Up
           </button>
 
@@ -159,7 +149,7 @@
           </div>
 
           <!-- Sign In Link -->
-          <p class="text-center text-brown-mid" style="font-size: 0.95rem;">
+          <p class="text-center text-brown-mid text-sm md:text-base">
             Already have an account?
             <a href="/login" class="font-bold underline hover:text-brown-dark transition-colors">Sign In here</a>
           </p>
@@ -169,8 +159,8 @@
     </div>
   </div>
 
-  <!-- ── RIGHT: 3 Scrolling Columns ── -->
-  <div class="flex gap-3 flex-shrink-0" style="width: 48vw; padding: 0 12px; overflow:hidden;">
+  <!-- ── RIGHT: 3 Scrolling Columns (hidden on mobile) ── -->
+  <div class="hidden md:flex gap-3 flex-shrink-0" style="width: 45vw; padding: 0 12px; overflow:hidden; height:100vh;">
 
     <!-- Column 1: DOWN -->
     <div class="col-wrap">
@@ -215,7 +205,6 @@
       const input = document.getElementById('passwordInput');
       input.type = input.type === 'password' ? 'text' : 'password';
     }
-
     window.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
     window.addEventListener('keydown', e => {
       if (e.ctrlKey && ['+', '-', '=', '_', '0'].includes(e.key)) e.preventDefault();
