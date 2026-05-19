@@ -25,7 +25,7 @@ $riwayat  = $riwayat  ?? [];
 <!-- Profile Card -->
 <div class="bg-[#5C3D1E] rounded-2xl p-6 mb-8 flex items-center gap-6">
   <!-- Avatar -->
-  <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-[#F5D97E] flex-shrink-0 bg-[#7A5230] flex items-center justify-center transition-colors duration-150 cursor-pointer"
+  <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-[#F5D97E] flex-shrink-0 bg-[#7A5230] flex items-center justify-center transition-colors duration-150 cursor-pointer"
      onclick="openModal()"
      onmouseover="this.style.backgroundColor='#FFE1C5'; document.getElementById('profilePlaceholder').src='/assets/icons/edit-profile.svg'"
      onmouseout="this.style.backgroundColor='#7A5230'; document.getElementById('profilePlaceholder').src='/assets/icons/profile-placeholder.svg'">
