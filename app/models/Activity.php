@@ -11,6 +11,20 @@ class Activity extends Database
     public function getActivities()
     {
         $activities = [];
+        $query = "SELECT * FROM {$this->table} WHERE status = 'active'";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        while ($activity = $result->fetch_assoc()) {
+            $activities[] = $activity;
+        }
+        return $activities;
+    }
+
+    public function getAllActivities()
+    {
+        $activities = [];
         $query = "SELECT * FROM {$this->table}";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
@@ -19,7 +33,6 @@ class Activity extends Database
         while ($activity = $result->fetch_assoc()) {
             $activities[] = $activity;
         }
-
         return $activities;
     }
 
@@ -112,6 +125,15 @@ class Activity extends Database
     private function clean(string $value): string
     {
         return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
+    }
+
+    public function updateStatus(int $id, string $status)
+    {
+        $query = "UPDATE {$this->table} SET status = ? WHERE id = ?";
+        $stmt  = $this->connection->prepare($query);
+        $stmt->bind_param('si', $status, $id);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
     }
 }
 ?>

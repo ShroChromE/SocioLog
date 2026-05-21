@@ -7,9 +7,7 @@ $riwayat  = $riwayat  ?? [];
 <!-- Page Header -->
 <div class="bg-[#5C3D1E] rounded-2xl p-6 mb-5 flex items-center justify-between">
   <div class="flex items-center gap-4">
-    <span class="text-3xl">
-      <img src="assets/icons/profile-active.svg" alt="Profile Icon Active" class="w-12 h-12">
-    </span>
+    <img src="/assets/icons/profile-active.svg" alt="Profile Icon Active" class="w-12 h-12">
     <div>
       <h1 class="text-xl font-bold text-white">Profil Siswa</h1>
       <p class="text-sm text-white mt-0.5">Buku Catatan Sosial Siswa</p>
@@ -24,27 +22,75 @@ $riwayat  = $riwayat  ?? [];
 
 <!-- Profile Card -->
 <div class="bg-[#5C3D1E] rounded-2xl p-6 mb-8 flex items-center gap-6">
+
   <!-- Avatar -->
   <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-[#F5D97E] flex-shrink-0 bg-[#7A5230] flex items-center justify-center transition-colors duration-150 cursor-pointer"
-     onclick="openModal()"
-     onmouseover="this.style.backgroundColor='#FFE1C5'; document.getElementById('profilePlaceholder').src='/assets/icons/edit-profile.svg'"
-     onmouseout="this.style.backgroundColor='#7A5230'; document.getElementById('profilePlaceholder').src='/assets/icons/profile-placeholder.svg'">
+       onclick="openModal()"
+       onmouseover="this.style.backgroundColor='#FFE1C5'; document.getElementById('profilePlaceholder').src='/assets/icons/edit-profile.svg'"
+       onmouseout="this.style.backgroundColor='#7A5230'; document.getElementById('profilePlaceholder').src='/assets/icons/profile-placeholder.svg'">
     <?php if (!empty($siswa['foto'])): ?>
       <img src="<?= htmlspecialchars($siswa['foto']) ?>" alt="Foto Siswa" class="w-full h-full object-cover">
     <?php else: ?>
       <img id="profilePlaceholder"
-          src="/assets/icons/profile-placeholder.svg"
-          alt="Profile Placeholder"
-          class="w-12 h-12 pointer-events-none"
-          onerror="this.style.display='none'" />
+           src="/assets/icons/profile-placeholder.svg"
+           alt="Profile Placeholder"
+           class="w-12 h-12 pointer-events-none"
+           onerror="this.style.display='none'" />
     <?php endif; ?>
   </div>
 
   <!-- Info -->
   <div class="flex-1">
     <p class="text-lg font-bold text-[#F5D97E]"><?= htmlspecialchars($siswa['nama']) ?></p>
-    <p class="text-sm text-[#D4B896] mt-1">Kelas: <?= htmlspecialchars($siswa['kelas']) ?></p>
-    <p class="text-sm text-[#D4B896]"><?= htmlspecialchars($siswa['sekolah']) ?></p>
+
+    <!-- Class -->
+    <div class="flex items-center gap-2 mt-1">
+      <?php if (!empty($siswa['kelas']) && $siswa['kelas'] !== '-'): ?>
+        <p class="text-sm text-[#D4B896]">Kelas: <span id="kelasDisplay"><?= htmlspecialchars($siswa['kelas']) ?></span></p>
+        <button onclick="toggleClassDropdown()"
+                class="text-xs text-[#F5D97E] border border-[#F5D97E] px-2 py-0.5 rounded-full hover:bg-[#F5D97E] hover:text-[#5C3D1E] transition-colors">
+          Edit
+        </button>
+      <?php else: ?>
+        <p class="text-sm text-[#D4B896]">Kelas:
+          <button onclick="toggleClassDropdown()"
+                  class="text-xs text-[#F5D97E] border border-[#F5D97E] px-2 py-0.5 rounded-full hover:bg-[#F5D97E] hover:text-[#5C3D1E] transition-colors ml-1">
+            Set Kelas
+          </button>
+        </p>
+      <?php endif; ?>
+    </div>
+
+    <!-- Class Dropdown -->
+    <div id="classDropdown" class="hidden mt-2">
+      <form method="POST" action="/profile/update-class">
+        <select name="class"
+                onchange="this.form.submit()"
+                class="bg-[#7A5230] text-white text-sm rounded-xl px-3 py-1.5 outline-none cursor-pointer border border-[#F5D97E]">
+          <option value="">Belum Diatur</option>
+          <?php
+            $kelasList = [
+              'X TKJ 1','X TKJ 2','X TKJ 3',
+              'X AKL 1','X AKL 2',
+              'X BID 1','X BID 2',
+              'XI TKJ 1','XI TKJ 2','XI TKJ 3',
+              'XI AKL 1','XI AKL 2',
+              'XI BID 1','XI BID 2',
+              'XII TKJ 1','XII TKJ 2','XII TKJ 3',
+              'XII AKL 1','XII AKL 2',
+              'XII BID 1','XII BID 2',
+            ];
+            foreach ($kelasList as $k):
+          ?>
+            <option value="<?= $k ?>" <?= ($siswa['kelas'] === $k) ? 'selected' : '' ?>>
+              <?= $k ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </form>
+    </div>
+
+    <p class="text-sm text-[#D4B896] mt-1"><?= htmlspecialchars($siswa['sekolah']) ?></p>
   </div>
 
   <!-- Status Badge -->
@@ -53,14 +99,13 @@ $riwayat  = $riwayat  ?? [];
   </span>
 </div>
 
-<!-- Edit Profile Popup -->
- <div id="uploadModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+<!-- Upload Profile Picture Modal -->
+<div id="uploadModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
   <div class="bg-[#F9F0DC] border-2 border-[#5C3D1E] rounded-2xl p-8 w-full max-w-sm shadow-xl">
     <h2 class="text-lg font-bold text-[#5C3D1E] mb-5">Ganti Foto Profil</h2>
 
     <form method="POST" action="/profile/upload" enctype="multipart/form-data">
-      <!-- Preview -->
-      <div class="w-64 h-64 rounded-full overflow-hidden border-2 border-[#7A5230] flex items-center justify-center mx-auto mb-5">
+      <div class="w-40 h-40 rounded-full overflow-hidden border-2 border-[#7A5230] flex items-center justify-center mx-auto mb-5">
         <img id="previewImg"
              src="<?= !empty($siswa['foto']) ? htmlspecialchars($siswa['foto']) : '/assets/icons/profile-placeholder.svg' ?>"
              class="w-full h-full object-cover" />
@@ -86,20 +131,6 @@ $riwayat  = $riwayat  ?? [];
     </form>
   </div>
 </div>
-
-<script>
-  function openModal()  { document.getElementById('uploadModal').classList.remove('hidden'); }
-  function closeModal() { document.getElementById('uploadModal').classList.add('hidden'); }
-
-  function previewImage(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => document.getElementById('previewImg').src = e.target.result;
-      reader.readAsDataURL(file);
-    }
-  }
-</script>
 
 <!-- Activity History -->
 <h2 class="text-2xl font-bold text-[#5C3D1E] mb-4">Riwayat Kegiatan Sosial</h2>
@@ -138,6 +169,8 @@ $riwayat  = $riwayat  ?? [];
           <td class="px-4 py-3 text-center border-t border-[#D4B896]">
             <?php if ($item['status'] === 'terverifikasi'): ?>
               <span class="inline-block text-xs font-bold px-3 py-0.5 rounded-full bg-[#F5D97E] text-[#5C3D1E]">Terverifikasi</span>
+            <?php elseif ($item['status'] === 'ditolak'): ?>
+              <span class="inline-block text-xs font-bold px-3 py-0.5 rounded-full bg-red-200 text-red-700">Ditolak</span>
             <?php else: ?>
               <span class="inline-block text-xs font-bold px-3 py-0.5 rounded-full bg-[#e8d5b0] text-[#5C3D1E]">Menunggu</span>
             <?php endif; ?>
@@ -148,3 +181,21 @@ $riwayat  = $riwayat  ?? [];
     </tbody>
   </table>
 </div>
+
+<script>
+  function openModal()  { document.getElementById('uploadModal').classList.remove('hidden'); }
+  function closeModal() { document.getElementById('uploadModal').classList.add('hidden'); }
+
+  function toggleClassDropdown() {
+    document.getElementById('classDropdown').classList.toggle('hidden');
+  }
+
+  function previewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => document.getElementById('previewImg').src = e.target.result;
+      reader.readAsDataURL(file);
+    }
+  }
+</script>

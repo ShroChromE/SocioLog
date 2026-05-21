@@ -25,7 +25,6 @@ class Registration extends Database
         return $stmt->affected_rows > 0 ? 'success' : 'failed';
     }
 
-    // Check if a volunteer is already registered to an activity
     public function isRegistered(int $userId, int $activityId): bool
     {
         $query = "SELECT id FROM {$this->table} WHERE user_id = ? AND activity_id = ? LIMIT 1";
@@ -35,13 +34,12 @@ class Registration extends Database
         return $stmt->get_result()->num_rows > 0;
     }
 
-    // Get all activities a volunteer has registered for
     public function getActivitiesByUser(int $userId)
     {
         $query = "SELECT a.*, r.registered_at, r.status
                 FROM {$this->table} r
                 JOIN activities a ON r.activity_id = a.id
-                WHERE r.user_id = ?
+                WHERE r.user_id = ? AND r.status != 'ditolak'
                 ORDER BY r.registered_at DESC";
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param('i', $userId);
@@ -50,7 +48,10 @@ class Registration extends Database
         $result = $stmt->get_result();
         $activities = [];
         while ($row = $result->fetch_assoc()) {
-            $row['jam'] = $this->calculateHours($row['time']);
+            // only count hours if verified
+            $row['jam'] = $row['status'] === 'terverifikasi'
+                ? $this->calculateHours($row['time'])
+                : 0;
             $activities[] = $row;
         }
         return $activities;
@@ -69,8 +70,6 @@ class Registration extends Database
         $diff = ($end - $start) / 3600;
         return $diff > 0 ? round($diff, 1) : 0;
     }
-
-    // Get all volunteers registered to an activity
     public function getVolunteersByActivity(int $activityId)
     {
         $query = "SELECT u.id, u.name, u.email, r.registered_at
@@ -98,5 +97,40 @@ class Registration extends Database
         $stmt->bind_param('ii', $userId, $activityId);
         $stmt->execute();
         return $stmt->affected_rows > 0;
+    }
+    public function getAllRegistrations()
+    {
+        $query = "SELECT r.id, u.name AS nama, u.class AS kelas, a.activity AS kegiatan, r.status, a.status AS activity_status
+                FROM {$this->table} r
+                JOIN users u ON r.user_id = u.id
+                JOIN activities a ON r.activity_id = a.id
+                ORDER BY r.registered_at DESC";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    public function updateStatus(int $id, string $status)
+    {
+        $query = "UPDATE {$this->table} SET status = ? WHERE id = ?";
+        $stmt  = $this->connection->prepare($query);
+        $stmt->bind_param('si', $status, $id);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
+    }
+
+    public function removePendingByActivity(int $activityId)
+    {
+        $query = "DELETE FROM {$this->table} WHERE activity_id = ? AND status = 'menunggu'";
+        $stmt  = $this->connection->prepare($query);
+        $stmt->bind_param('i', $activityId);
+        $stmt->execute();
+        return $stmt->affected_rows;
     }
 }

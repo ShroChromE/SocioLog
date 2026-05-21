@@ -28,8 +28,11 @@ $router->add('POST', '/activities/{id}/register', 'RegistrationController', 'sto
 $router->add('POST', '/activities/{id}/unregister', 'RegistrationController', 'destroy');
 $router->add('GET', '/profile', 'ProfileController', 'index');
 $router->add('POST', '/profile/upload', 'ProfileController', 'upload');
-$router->add('GET', '/admin/verification','ActivityController', 'verification');
-
+$router->add('GET', '/admin/verification','VerificationController', 'index');
+$router->add('POST', '/admin/verification/approve/{id}', 'VerificationController', 'approve');
+$router->add('POST', '/admin/verification/reject/{id}', 'VerificationController', 'reject');
+$router->add('POST', '/profile/update-class', 'ProfileController', 'updateClass');
+$router->add('POST', '/admin/activities/{id}/close', 'ActivityController', 'close');
 
 $router->run();
 ?>

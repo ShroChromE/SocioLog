@@ -45,83 +45,99 @@ class ProfileController extends Controller
     }
 
     public function upload()
-{
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: /login');
-        exit();
-    }
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
 
-    $userId = (int) $_SESSION['user_id'];
+        $userId = (int) $_SESSION['user_id'];
 
-    if (empty($_FILES['profile_picture']['name'])) {
+        if (empty($_FILES['profile_picture']['name'])) {
+            header('Location: /profile');
+            exit();
+        }
+
+        $file    = $_FILES['profile_picture'];
+        $ext     = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+
+        if (!in_array($ext, $allowed)) {
+            header('Location: /profile?error=invalid_file');
+            exit();
+        }
+
+        $folder     = '../public/assets/profiles/';
+        $filename   = 'profile-user' . $userId . '.webp';
+        $savePath   = $folder . $filename;
+        $publicPath = '/assets/profiles/' . $filename;
+
+        // delete old file (updating profile picture will replace the old one)
+        foreach (glob($folder . 'profile-user' . $userId . '.*') as $oldFile) {
+            unlink($oldFile);
+        }
+
+        // load image based on type (if somehow the user finds a way to upload a non-image file with an allowed extension)
+        $mime = mime_content_type($file['tmp_name']);
+        $src  = match($mime) {
+            'image/jpeg' => imagecreatefromjpeg($file['tmp_name']),
+            'image/png'  => imagecreatefrompng($file['tmp_name']),
+            'image/webp' => imagecreatefromwebp($file['tmp_name']),
+            default      => null
+        };
+
+        if (!$src) {
+            header('Location: /profile?error=invalid_file');
+            exit();
+        }
+
+        // Optimize and save as webp
+        $origW = imagesx($src);
+        $origH = imagesy($src);
+        $maxSize = 400;
+
+        if ($origW > $maxSize || $origH > $maxSize) {
+            $ratio = min($maxSize / $origW, $maxSize / $origH);
+            $newW  = (int) round($origW * $ratio);
+            $newH  = (int) round($origH * $ratio);
+        } else {
+            $newW = $origW;
+            $newH = $origH;
+        }
+
+        $dst = imagecreatetruecolor($newW, $newH);
+
+        imagealphablending($dst, false);
+        imagesavealpha($dst, true);
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $origW, $origH);
+
+        imagewebp($dst, $savePath, 80);
+
+        imagedestroy($src);
+        imagedestroy($dst);
+
+        // DB
+        $userModel = new User();
+        $userModel->updateProfilePicture($userId, $publicPath);
+        $_SESSION['user_picture'] = $publicPath;
+
         header('Location: /profile');
         exit();
     }
+    public function updateClass()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
 
-    $file    = $_FILES['profile_picture'];
-    $ext     = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-    $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+        $class  = htmlspecialchars($_POST['class'] ?? '');
+        $userId = (int) $_SESSION['user_id'];
 
-    if (!in_array($ext, $allowed)) {
-        header('Location: /profile?error=invalid_file');
+        $userModel = new User();
+        $userModel->updateClass($userId, $class);
+
+        header('Location: /profile');
         exit();
     }
-
-    $folder     = '../public/assets/profiles/';
-    $filename   = 'profile-user' . $userId . '.webp';
-    $savePath   = $folder . $filename;
-    $publicPath = '/assets/profiles/' . $filename;
-
-    // delete old file (updating profile picture will replace the old one)
-    foreach (glob($folder . 'profile-user' . $userId . '.*') as $oldFile) {
-        unlink($oldFile);
-    }
-
-    // load image based on type (if somehow the user finds a way to upload a non-image file with an allowed extension)
-    $mime = mime_content_type($file['tmp_name']);
-    $src  = match($mime) {
-        'image/jpeg' => imagecreatefromjpeg($file['tmp_name']),
-        'image/png'  => imagecreatefrompng($file['tmp_name']),
-        'image/webp' => imagecreatefromwebp($file['tmp_name']),
-        default      => null
-    };
-
-    if (!$src) {
-        header('Location: /profile?error=invalid_file');
-        exit();
-    }
-
-    // Optimize and save as webp
-    $origW = imagesx($src);
-    $origH = imagesy($src);
-    $maxSize = 400;
-
-    if ($origW > $maxSize || $origH > $maxSize) {
-        $ratio = min($maxSize / $origW, $maxSize / $origH);
-        $newW  = (int) round($origW * $ratio);
-        $newH  = (int) round($origH * $ratio);
-    } else {
-        $newW = $origW;
-        $newH = $origH;
-    }
-
-    $dst = imagecreatetruecolor($newW, $newH);
-
-    imagealphablending($dst, false);
-    imagesavealpha($dst, true);
-    imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $origW, $origH);
-
-    imagewebp($dst, $savePath, 80);
-
-    imagedestroy($src);
-    imagedestroy($dst);
-
-    // DB
-    $userModel = new User();
-    $userModel->updateProfilePicture($userId, $publicPath);
-    $_SESSION['user_picture'] = $publicPath;
-
-    header('Location: /profile');
-    exit();
-}
 }

@@ -54,4 +54,13 @@ class User extends Database
         $stmt->execute();
         return $stmt->affected_rows > 0;
     }
+
+    public function updateClass(int $id, string $class)
+    {
+        $query = "UPDATE {$this->table} SET class = ? WHERE id = ?";
+        $stmt  = $this->connection->prepare($query);
+        $stmt->bind_param('si', $class, $id);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
+    }
 }

@@ -45,48 +45,60 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #7A5230; border-radius: 4px; }
   </style>
-    </head>
+</head>
 
-    <body class="bg-brown-page text-cream flex h-screen overflow-hidden">
+<body class="bg-brown-page text-cream flex h-screen overflow-hidden">
 
-      <!-- ── SIDEBAR ── -->
-      <aside class="w-52 bg-brown-sidebar flex flex-col py-5 flex-shrink-0 border-r border-black/10">
+  <!-- ── SIDEBAR ── -->
+  <aside class="w-52 bg-brown-sidebar flex flex-col py-5 flex-shrink-0 border-r border-black/10">
 
-        <div class="flex items-center gap-2.5 px-4 pb-4 border-b border-black/10 mb-3">
-          <div class="w-10 h-10 rounded-full bg-brown-light flex items-center justify-center text-lg flex-shrink-0">👤</div>
-          <div class="overflow-hidden">
-            <p class="text-sm font-bold text-[#3B2507] truncate"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?></p>
-            <p class="text-xs text-[#75573A] truncate">SMK Kristen Immanuel</p>
-          </div>
-        </div>
+    <!-- Profile -->
+    <div class="flex items-center gap-2.5 px-4 pb-4 border-b border-black/10 mb-3">
+      <?php
+        $profilePic = $_SESSION['user_picture'] ?? null;
+        if (!$profilePic) {
+          $picPath = '../public/assets/profiles/profile-user' . ($_SESSION['user_id'] ?? 0) . '.webp';
+          if (file_exists($picPath)) {
+            $profilePic = '/assets/profiles/profile-user' . ($_SESSION['user_id'] ?? 0) . '.webp';
+          }
+        }
+      ?>
+      <div class="w-10 h-10 rounded-full overflow-hidden bg-brown-light flex-shrink-0 flex items-center justify-center">
+        <?php if ($profilePic): ?>
+          <img src="<?= htmlspecialchars($profilePic) ?>" alt="Profile" class="w-full h-full object-cover">
+        <?php else: ?>
+          <img src="/assets/icons/profile-placeholder.svg" alt="Profile" class="w-6 h-6">
+        <?php endif; ?>
+      </div>
+      <div class="overflow-hidden">
+        <p class="text-sm font-bold text-[#3B2507] truncate"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Guest') ?></p>
+        <p class="text-xs text-[#75573A] truncate">SMK Kristen Immanuel</p>
+      </div>
+    </div>
 
-          <?php $currentUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>
-          <nav class="flex flex-col gap-0.5 px-2.5">
-            <a href="/" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
-              <?= $currentUri === '/' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
-              <img src="/assets/icons/<?= $currentUri === '/' ? 'dashboard-active.svg' : 'dashboard.svg' ?>" alt="Dashboard" class="w-8 h-8">
-              Halaman Login
-            </a>
+    <!-- Nav -->
+    <?php $currentUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>
+    <nav class="flex flex-col gap-0.5 px-2.5">
 
-            <a href="/activities" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
-              <?= $currentUri === '/activities' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
-              <img src="/assets/icons/<?= $currentUri === '/activities' ? 'list-active.svg' : 'list.svg' ?>" alt="List" class="w-8 h-8">
-              Daftar Kegiatan
-            </a>
+      <a href="/" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+        <?= $currentUri === '/' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+        <img src="/assets/icons/<?= $currentUri === '/' ? 'dashboard-active.svg' : 'dashboard.svg' ?>" alt="Dashboard" class="w-8 h-8">
+        Halaman Login
+      </a>
 
-            <a href="/admin/verification" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
-              <?= $currentUri === '/admin/verification' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
-              <img src="/assets/icons/<?= $currentUri === '/admin/verification' ? 'register-active.svg' : 'register.svg' ?>" alt="Pendaftaran" class="w-8 h-8">
-              Pendaftaran
-            </a>
+      <a href="/activities" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+        <?= $currentUri === '/activities' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+        <img src="/assets/icons/<?= $currentUri === '/activities' ? 'list-active.svg' : 'list.svg' ?>" alt="List" class="w-8 h-8">
+        Daftar Kegiatan
+      </a>
 
-            <a href="/profile" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
-              <?= $currentUri === '/profile' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
-              <img src="/assets/icons/<?= $currentUri === '/profile' ? 'profile-active.svg' : 'profile.svg' ?>" alt="Profil" class="w-8 h-8">
-              Profil
-            </a>
-        </nav>
-     </aside>
+      <a href="/profile" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+        <?= $currentUri === '/profile' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+        <img src="/assets/icons/<?= $currentUri === '/profile' ? 'profile-active.svg' : 'profile.svg' ?>" alt="Profil" class="w-8 h-8">
+        Profil
+      </a>
+    </nav>
+  </aside>
 
   <!-- ── PAGE CONTENT ── -->
   <main class="flex-1 bg-brown-main overflow-y-auto p-7">
