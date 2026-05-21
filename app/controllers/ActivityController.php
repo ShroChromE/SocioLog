@@ -38,7 +38,7 @@ class ActivityController extends Controller
     public function manage()
     {
         $activityModel = new Activity();
-        $activities = $activityModel->getActivities();
+        $activities = $activityModel->getAllActivities();
 
         $this->view('admin.activities', [
             'activities' => $activities
@@ -94,4 +94,23 @@ class ActivityController extends Controller
         $activityModel->delete($id);
     }
 
+    public function close(string $id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+            header('Location: /activities');
+            exit();
+        }
+
+        $id = intval($id);
+
+        $activityModel = new Activity();
+        $activityModel->updateStatus($id, 'inactive');
+
+        require_once '../app/models/Registration.php';
+        $regModel = new \App\Models\Registration();
+        $regModel->removePendingByActivity($id);
+
+        header('Location: /admin/activities');
+        exit();
+    }
 }
