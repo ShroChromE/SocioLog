@@ -67,14 +67,18 @@ class ActivityController extends Controller
     public function store()
     {
         $activityModel = new Activity();
-        $activityModel->insert($_POST);
+        $data = array_merge($_POST, $this->uploadedActivityImages());
+
+        $activityModel->insert($data);
     }
 
     public function update(string $id)
     {
         $id = intval($id);
         $activityModel = new Activity();
-        $activityModel->update($_POST, $id);
+        $data = array_merge($_POST, $this->uploadedActivityImages());
+
+        $activityModel->update($data, $id);
     }
 
     public function destroy(string $id)
@@ -82,6 +86,61 @@ class ActivityController extends Controller
         $id = intval($id);
         $activityModel = new Activity();
         $activityModel->delete($id);
+    }
+
+    private function uploadedActivityImages(): array
+    {
+        $fields = [
+            'thumbnail',
+            'documentation-1',
+            'documentation-2',
+            'documentation-3',
+            'documentation-4',
+        ];
+
+        $uploaded = [];
+
+        foreach ($fields as $field) {
+            if (!isset($_FILES[$field]) || $_FILES[$field]['error'] === UPLOAD_ERR_NO_FILE) {
+                continue;
+            }
+
+            $uploaded[$field] = $this->storeActivityImage($_FILES[$field]);
+        }
+
+        return $uploaded;
+    }
+
+    private function storeActivityImage(array $file): string
+    {
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            die('Gagal mengunggah gambar.');
+        }
+
+        if (!is_uploaded_file($file['tmp_name']) || getimagesize($file['tmp_name']) === false) {
+            die('File harus berupa gambar.');
+        }
+
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($extension, $allowedExtensions, true)) {
+            die('Format gambar harus JPG, PNG, atau WEBP.');
+        }
+
+        $uploadDir = dirname(__DIR__, 2) . '/public/assets/uploads/activities';
+        if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true)) {
+            die('Folder upload tidak dapat dibuat.');
+        }
+
+        $filename = uniqid('activity_', true) . '.' . $extension;
+        $target = $uploadDir . '/' . $filename;
+
+        if (!move_uploaded_file($file['tmp_name'], $target)) {
+            die('Gagal menyimpan gambar.');
+        }
+
+        return '/assets/uploads/activities/' . $filename;
     }
 
 }

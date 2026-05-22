@@ -3,7 +3,7 @@
   <p class="text-sm text-white mt-0.5">Tambahkan kegiatan baru ke halaman kelola kegiatan</p>
 </div>
 
-<form method="POST" action="/admin/activities" class="bg-[#F9F0DC] border border-[#D4B896] rounded-xl p-5 space-y-4">
+<form method="POST" action="/admin/activities" enctype="multipart/form-data" class="bg-[#F9F0DC] border border-[#D4B896] rounded-xl p-5 space-y-4">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <label class="block">
       <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Nama Kegiatan</span>
@@ -47,6 +47,23 @@
     <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Kuota</span>
     <input required type="number" name="quota" min="1" class="w-full rounded-lg border border-[#D4B896] px-3 py-2 text-sm text-[#3B2507]">
   </label>
+
+  <div class="space-y-3">
+    <label class="block">
+      <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Thumbnail</span>
+      <input required type="file" name="thumbnail" accept="image/*" class="w-full rounded-lg border border-[#D4B896] bg-white px-3 py-2 text-sm text-[#3B2507] file:mr-3 file:rounded-md file:border-0 file:bg-[#5C3D1E] file:px-3 file:py-1.5 file:text-sm file:font-bold file:text-white">
+    </label>
+
+    <div>
+      <span class="block text-sm font-bold text-[#5C3D1E] mb-1">Dokumentasi</span>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <input type="file" name="documentation-1" accept="image/*" class="w-full rounded-lg border border-[#D4B896] bg-white px-3 py-2 text-sm text-[#3B2507] file:mr-3 file:rounded-md file:border-0 file:bg-[#5C3D1E] file:px-3 file:py-1.5 file:text-sm file:font-bold file:text-white">
+        <input type="file" name="documentation-2" accept="image/*" class="w-full rounded-lg border border-[#D4B896] bg-white px-3 py-2 text-sm text-[#3B2507] file:mr-3 file:rounded-md file:border-0 file:bg-[#5C3D1E] file:px-3 file:py-1.5 file:text-sm file:font-bold file:text-white">
+        <input type="file" name="documentation-3" accept="image/*" class="w-full rounded-lg border border-[#D4B896] bg-white px-3 py-2 text-sm text-[#3B2507] file:mr-3 file:rounded-md file:border-0 file:bg-[#5C3D1E] file:px-3 file:py-1.5 file:text-sm file:font-bold file:text-white">
+        <input type="file" name="documentation-4" accept="image/*" class="w-full rounded-lg border border-[#D4B896] bg-white px-3 py-2 text-sm text-[#3B2507] file:mr-3 file:rounded-md file:border-0 file:bg-[#5C3D1E] file:px-3 file:py-1.5 file:text-sm file:font-bold file:text-white">
+      </div>
+    </div>
+  </div>
 
   <div class="flex flex-wrap gap-3 pt-2">
     <button type="submit" class="bg-[#5C3D1E] hover:bg-[#7A5230] text-white font-bold text-sm px-5 py-2.5 rounded-xl">Buat</button>
