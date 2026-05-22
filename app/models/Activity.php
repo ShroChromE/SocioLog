@@ -68,8 +68,11 @@ class Activity extends Database
 
     public function update(array $data, int $id)
     {
+        $current       = $this->getActivity($id) ?: [];
         $activity      = $this->clean($data['activity'] ?? '');
-        $thumbnail     = $this->clean($data['thumbnail'] ?? '');
+        $thumbnail     = array_key_exists('thumbnail', $data)
+            ? $this->clean($data['thumbnail'] ?? '')
+            : ($current['thumbnail'] ?? '');
         $date          = $this->clean($data['date'] ?? '');
         $time          = $this->clean($data['time'] ?? '');
         $location      = $this->clean($data['location'] ?? '');
@@ -77,10 +80,10 @@ class Activity extends Database
         $goal          = $this->clean($data['goal'] ?? '');
         $event         = $this->clean($data['event'] ?? '');
         $quota         = (int) ($data['quota'] ?? 0);
-        $doc1          = $this->clean($data['documentation-1'] ?? '');
-        $doc2          = $this->clean($data['documentation-2'] ?? '');
-        $doc3          = $this->clean($data['documentation-3'] ?? '');
-        $doc4          = $this->clean($data['documentation-4'] ?? '');
+        $doc1          = array_key_exists('documentation-1', $data) ? $this->clean($data['documentation-1'] ?? '') : ($current['documentation-1'] ?? '');
+        $doc2          = array_key_exists('documentation-2', $data) ? $this->clean($data['documentation-2'] ?? '') : ($current['documentation-2'] ?? '');
+        $doc3          = array_key_exists('documentation-3', $data) ? $this->clean($data['documentation-3'] ?? '') : ($current['documentation-3'] ?? '');
+        $doc4          = array_key_exists('documentation-4', $data) ? $this->clean($data['documentation-4'] ?? '') : ($current['documentation-4'] ?? '');
 
         $query = "UPDATE {$this->table} 
                   SET activity=?, thumbnail=?, date=?, time=?, location=?, description=?, goal=?, event=?, quota=?, `documentation-1`=?, `documentation-2`=?, `documentation-3`=?, `documentation-4`=? 
