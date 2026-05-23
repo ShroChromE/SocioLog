@@ -92,6 +92,18 @@
         Daftar Kegiatan
       </a>
 
+      <a href="/admin/activities" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+        <?= $currentUri === '/admin/activities' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+        <img src="/assets/icons/<?= $currentUri === '/admin/activities' ? 'manage-active.svg' : 'manage.svg' ?>" alt="Manage" class="w-8 h-8">
+        Kelola Kegiatan
+      </a>
+
+      <a href="/admin/verification" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+        <?= $currentUri === '/admin/verification' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
+        <img src="/assets/icons/<?= $currentUri === '/admin/verification' ? 'verify-active.svg' : 'verify.svg' ?>" alt="Verifikasi" class="w-8 h-8">
+        Verifikasi
+      </a>
+
       <a href="/profile" class="nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
         <?= $currentUri === '/profile' ? 'font-bold bg-brown-dark text-[#FFE15E]' : 'font-medium text-[#75573A] hover:bg-black/5 hover:text-[#3B2507]' ?>">
         <img src="/assets/icons/<?= $currentUri === '/profile' ? 'profile-active.svg' : 'profile.svg' ?>" alt="Profil" class="w-8 h-8">

@@ -6,9 +6,23 @@ use App\Core\Database;
 
 class Activity extends Database
 {
-    protected $table = 'kegiatan';
+    protected $table = 'activities';
 
     public function getActivities()
+    {
+        $activities = [];
+        $query = "SELECT * FROM {$this->table} WHERE status = 'active'";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        while ($activity = $result->fetch_assoc()) {
+            $activities[] = $activity;
+        }
+        return $activities;
+    }
+
+    public function getAllActivities()
     {
         $activities = [];
         $query = "SELECT * FROM {$this->table}";
@@ -19,7 +33,6 @@ class Activity extends Database
         while ($activity = $result->fetch_assoc()) {
             $activities[] = $activity;
         }
-
         return $activities;
     }
 
@@ -115,6 +128,15 @@ class Activity extends Database
     private function clean(string $value): string
     {
         return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
+    }
+
+    public function updateStatus(int $id, string $status)
+    {
+        $query = "UPDATE {$this->table} SET status = ? WHERE id = ?";
+        $stmt  = $this->connection->prepare($query);
+        $stmt->bind_param('si', $status, $id);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
     }
 }
 ?>

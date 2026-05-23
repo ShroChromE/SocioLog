@@ -38,9 +38,19 @@ class ActivityController extends Controller
     public function manage()
     {
         $activityModel = new Activity();
-        $activities = $activityModel->getActivities();
+        $activities = $activityModel->getAllActivities();
 
         $this->view('admin.activities', [
+            'activities' => $activities
+        ]);
+    }
+
+     public function verification()
+    {
+        $activityModel = new Activity();
+        $activities = $activityModel->getActivities();
+
+        $this->view('admin.verification', [
             'activities' => $activities
         ]);
     }
