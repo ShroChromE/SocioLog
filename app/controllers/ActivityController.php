@@ -48,6 +48,11 @@ class ActivityController extends Controller
 
     public function manage()
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+            header('Location: /activities');
+            exit();
+        }
+
         $activityModel = new Activity();
         $activities = $activityModel->getAllActivities();
 
