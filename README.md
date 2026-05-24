@@ -136,6 +136,7 @@ Proyek ini menggunakan lisensi [Unlicense](http://unlicense.org/).
 
 <details>
 
+- Update Readme dan menambahkan database
 - Memperbaiki halaman admin agar tidak dapat diakses oleh volunteer melalui URL
 - Menambahkan gambar dan mengimplementasikan quota countdown kegiatan
 </details>
