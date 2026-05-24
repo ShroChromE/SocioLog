@@ -49,34 +49,29 @@ class Activity extends Database
 
     public function insert(array $data)
     {
-        $activity      = $this->clean($data['activity'] ?? '');
-        $thumbnail     = $this->clean($data['thumbnail'] ?? '');
-        $date          = $this->clean($data['date'] ?? '');
-        $time          = $this->clean($data['time'] ?? '');
-        $location      = $this->clean($data['location'] ?? '');
-        $description   = $this->clean($data['description'] ?? '');
-        $goal          = $this->clean($data['goal'] ?? '');
-        $event         = $this->clean($data['event'] ?? '');
-        $quota         = (int) ($data['quota'] ?? 0);
-        $doc1          = $this->clean($data['documentation-1'] ?? '');
-        $doc2          = $this->clean($data['documentation-2'] ?? '');
-        $doc3          = $this->clean($data['documentation-3'] ?? '');
-        $doc4          = $this->clean($data['documentation-4'] ?? '');
+        $activity    = htmlspecialchars($data['activity']);
+        $thumbnail   = htmlspecialchars($data['thumbnail'] ?? '');
+        $date        = htmlspecialchars($data['date']);
+        $time        = htmlspecialchars($data['time']);
+        $location    = htmlspecialchars($data['location']);
+        $description = htmlspecialchars($data['description']);
+        $goal        = htmlspecialchars($data['goal']);
+        $event       = htmlspecialchars($data['event']);
+        $quota       = (int) $data['quota'];
+        $doc1        = htmlspecialchars($data['documentation-1'] ?? '');
+        $doc2        = htmlspecialchars($data['documentation-2'] ?? '');
+        $doc3        = htmlspecialchars($data['documentation-3'] ?? '');
+        $doc4        = htmlspecialchars($data['documentation-4'] ?? '');
 
         $query = "INSERT INTO {$this->table} 
-                    (activity, thumbnail, date, time, location, description, goal, event, quota, `documentation-1`, `documentation-2`, `documentation-3`, `documentation-4`) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (activity, thumbnail, date, time, location, description, goal, event, quota, `documentation-1`, `documentation-2`, `documentation-3`, `documentation-4`) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param('ssssssssissss', $activity, $thumbnail, $date, $time, $location, $description, $goal, $event, $quota, $doc1, $doc2, $doc3, $doc4);
         $stmt->execute();
 
-        if ($stmt->affected_rows > 0) {
-            header('Location: /admin/activities');
-            exit();
-        } else {
-            echo "Gagal menambahkan kegiatan.";
-        }
+        return $this->connection->insert_id;
     }
 
     public function update(array $data, int $id)

@@ -11,9 +11,16 @@ class ActivityController extends Controller
 {
     public function index()
     {
+        require_once '../app/models/Registration.php';
         $activityModel = new Activity();
-        $activities = $activityModel->getActivities();
-
+        $regModel      = new \App\Models\Registration();
+        $activities    = $activityModel->getActivities();
+        foreach ($activities as &$activity) {
+            $accepted           = $regModel->countAccepted($activity['id']);
+            $activity['sisa']   = max(0, $activity['quota'] - $accepted);
+            $activity['penuh']  = $activity['sisa'] === 0;
+        }
+        unset($activity);
         $this->view('activities.index', [
             'activities' => $activities
         ]);
@@ -26,10 +33,14 @@ class ActivityController extends Controller
 
     public function show(string $id)
     {
-        $id = intval($id);
+        require_once '../app/models/Registration.php';
+        $id            = intval($id);
         $activityModel = new Activity();
-        $activity = $activityModel->getActivity($id);
-
+        $regModel      = new \App\Models\Registration();
+        $activity      = $activityModel->getActivity($id);
+        $accepted          = $regModel->countAccepted($id);
+        $activity['sisa']  = max(0, $activity['quota'] - $accepted);
+        $activity['penuh'] = $activity['sisa'] === 0;
         $this->view('activities.show', [
             'activity' => $activity
         ]);
@@ -45,31 +56,13 @@ class ActivityController extends Controller
         ]);
     }
 
-     public function verification()
-    {
-        $activityModel = new Activity();
-        $activities = $activityModel->getActivities();
-
-        $this->view('admin.verification', [
-            'activities' => $activities
-        ]);
-    }
-    public function profile()
-{
-    $activityModel = new Activity();
-    $activities = $activityModel->getActivities();
-
-    $this->view('activities.profile', [
-        'activities' => $activities
-    ]);
-}
     public function edit(string $id)
     {
         $id = intval($id);
         $activityModel = new Activity();
         $activity = $activityModel->getActivity($id);
 
-        $this->view('activities.edit', [
+        $this->view('admin.edit', [
             'activity' => $activity
         ]);
     }
@@ -77,18 +70,22 @@ class ActivityController extends Controller
     public function store()
     {
         $activityModel = new Activity();
-        $data = array_merge($_POST, $this->uploadedActivityImages());
-
-        $activityModel->insert($data);
+        $id = $activityModel->insert($_POST);
+        $images = $this->uploadedActivityImages($id);
+        if (!empty($images)) {
+            $activityModel->update(array_merge($_POST, $images), $id);
+        }
+        header('Location: /admin/activities');
+        exit();
     }
 
     public function update(string $id)
     {
         $id = intval($id);
         $activityModel = new Activity();
-        $data = array_merge($_POST, $this->uploadedActivityImages());
+        $images = $this->uploadedActivityImages($id);
 
-        $activityModel->update($data, $id);
+        $activityModel->update(array_merge($_POST, $images), $id);
     }
 
     public function destroy(string $id)
@@ -98,7 +95,27 @@ class ActivityController extends Controller
         $activityModel->delete($id);
     }
 
-    private function uploadedActivityImages(): array
+    public function close(string $id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+            header('Location: /activities');
+            exit();
+        }
+
+        $id = intval($id);
+
+        $activityModel = new Activity();
+        $activityModel->updateStatus($id, 'inactive');
+
+        require_once '../app/models/Registration.php';
+        $regModel = new \App\Models\Registration();
+        $regModel->removePendingByActivity($id);
+
+        header('Location: /admin/activities');
+        exit();
+    }
+
+    private function uploadedActivityImages(int $activityId): array
     {
         $fields = [
             'thumbnail',
@@ -115,13 +132,13 @@ class ActivityController extends Controller
                 continue;
             }
 
-            $uploaded[$field] = $this->storeActivityImage($_FILES[$field]);
+            $uploaded[$field] = $this->storeActivityImage($_FILES[$field], $activityId);
         }
 
         return $uploaded;
     }
 
-    private function storeActivityImage(array $file): string
+    private function storeActivityImage(array $file, int $activityId): string
     {
         if ($file['error'] !== UPLOAD_ERR_OK) {
             die('Gagal mengunggah gambar.');
@@ -138,19 +155,19 @@ class ActivityController extends Controller
             die('Format gambar harus JPG, PNG, atau WEBP.');
         }
 
-        $uploadDir = dirname(__DIR__, 2) . '/public/assets/uploads/activities';
+        // save to /public/assets/activity{id}/
+        $uploadDir = dirname(__DIR__, 2) . '/public/assets/activity' . $activityId;
         if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true)) {
             die('Folder upload tidak dapat dibuat.');
         }
 
-        $filename = uniqid('activity_', true) . '.' . $extension;
-        $target = $uploadDir . '/' . $filename;
+        $filename = $file['name'];
+        $target   = $uploadDir . '/' . $filename;
 
         if (!move_uploaded_file($file['tmp_name'], $target)) {
             die('Gagal menyimpan gambar.');
         }
 
-        return '/assets/uploads/activities/' . $filename;
+        return '/assets/activity' . $activityId . '/' . $filename;
     }
-
 }

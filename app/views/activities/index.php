@@ -30,7 +30,12 @@
   <?php foreach ($activities as $activity): ?>
   <div class="card bg-brown-card border border-brown-border rounded-xl overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-2xl transition-all duration-200">
     <div class="relative h-40 overflow-hidden bg-brown-img">
-      <img src="<?= ($activity['thumbnail']) ?>" alt="<?= ($activity['activity']) ?>" class="w-full h-full object-cover" />
+      <img src="<?= htmlspecialchars($activity['thumbnail']) ?>" alt="<?= htmlspecialchars($activity['activity']) ?>" class="w-full h-full object-cover" />
+      <?php if ($activity['penuh']): ?>
+        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <span class="text-white text-sm font-bold bg-red-500 px-3 py-1 rounded-full">Kuota Penuh</span>
+        </div>
+      <?php endif; ?>
     </div>
     <div class="p-4 flex flex-col gap-2 flex-1">
       <h3 class="text-sm font-semibold text-white leading-snug"><?= ($activity['activity']) ?></h3>
@@ -38,8 +43,12 @@
         <div class="text-xs text-white"><img src="/assets/icons/calendar.svg" alt="Date" class="w-4 h-4 inline mr-1"> <?= date('d F Y', strtotime($activity['date'])) ?></div>
         <div class="text-xs text-white"><img src="/assets/icons/clock.svg" alt="Time" class="w-4 h-4 inline mr-1"> <?= ($activity['time']) ?></div>
         <div class="text-xs text-white"><img src="/assets/icons/location.svg" alt="Location" class="w-4 h-4 inline mr-1"> <?= ($activity['location']) ?></div>
+        <div class="text-xs <?= $activity['penuh'] ? 'text-red-400' : 'text-white' ?>">
+          <img src="/assets/icons/profile-active.svg" alt="Person" class="w-4 h-4 inline mr-1"> Sisa: <?= $activity['sisa'] ?> / <?= $activity['quota'] ?> peserta
+        </div>
       </div>
-      <a href="/activities/<?= $activity['id'] ?>" class="mt-auto w-full py-2.5 bg-yellow hover:bg-yellow-hover text-black text-sm font-bold rounded-lg transition-colors active:scale-95 text-center">
+      <a href="/activities/<?= $activity['id'] ?>"
+         class="mt-auto w-full py-2.5 <?= $activity['penuh'] ? 'bg-gray-400 cursor-not-allowed' : 'bg-yellow hover:bg-yellow-hover' ?> text-black text-sm font-bold rounded-lg transition-colors active:scale-95 text-center">
         Lihat Detail
       </a>
     </div>

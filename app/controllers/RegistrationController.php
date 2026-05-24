@@ -19,6 +19,18 @@ class RegistrationController extends Controller
         $userId     = (int) $_SESSION['user_id'];
         $activityId = (int) $activityId;
 
+        require_once '../app/models/Activity.php';
+        $activityModel = new \App\Models\Activity();
+        $activity      = $activityModel->getActivity($activityId);
+
+        $accepted = $this->model->countAccepted($activityId);
+        $sisa     = $activity['quota'] - $accepted;
+
+        if ($sisa <= 0) {
+            header("Location: /activities/{$activityId}?msg=penuh");
+            exit();
+        }
+
         $model  = new Registration();
         $result = $model->register($userId, $activityId);
 
