@@ -62,14 +62,18 @@
       font-size: 2rem;
     }
 
-    .sq img { width: 100%; height: 100%; object-fit: cover; }
+    .sq img { 
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
     input:-webkit-autofill, input:-webkit-autofill:focus {
       -webkit-box-shadow: 0 0 0 100px #FFF6D0 inset !important;
       -webkit-text-fill-color: #75573A !important;
     }
 
-    /* allow scroll if card is taller than screen */
     @media (max-width: 767px) {
       html, body { overflow-y: auto; height: auto; }
     }
@@ -77,45 +81,37 @@
 </head>
 
 <body class="bg-yellow-light flex" style="min-height:100vh;">
-
-  <!-- ── LEFT: Scrolling Columns (hidden on mobile) ── -->
   <div class="hidden md:flex gap-3 flex-shrink-0" style="width: 45vw; padding: 0 12px; overflow:hidden; height:100vh;">
 
-    <!-- Column 1: DOWN -->
-    <div class="col-wrap">
-      <div class="scroll-col scroll-down">
-        <?php for ($i = 0; $i < 10; $i++): ?>
-          <div class="sq">🖼</div>
-        <?php endfor; ?>
-        <?php for ($i = 0; $i < 10; $i++): ?>
-          <div class="sq">🖼</div>
-        <?php endfor; ?>
+      <div class="col-wrap">
+        <div class="scroll-col scroll-down">
+          <?php for ($i = 0; $i < 10; $i++): ?>
+            <div class="sq">
+              <img src="/assets/scrolling_images/<?= ($i % 5 + 1) ?>.jpeg" alt="" loading="lazy">
+            </div>
+          <?php endfor; ?>
+        </div>
       </div>
-    </div>
 
-    <!-- Column 2: UP -->
-    <div class="col-wrap">
-      <div class="scroll-col scroll-up">
-        <?php for ($i = 0; $i < 10; $i++): ?>
-          <div class="sq">🖼</div>
-        <?php endfor; ?>
-        <?php for ($i = 0; $i < 10; $i++): ?>
-          <div class="sq">🖼</div>
-        <?php endfor; ?>
+      <div class="col-wrap">
+        <div class="scroll-col scroll-up">
+          <?php for ($i = 0; $i < 10; $i++): ?>
+            <div class="sq">
+              <img src="/assets/scrolling_images/<?= ($i % 5 + 6) ?>.jpeg" alt="" loading="lazy">
+            </div>
+          <?php endfor; ?>
+        </div>
       </div>
-    </div>
 
-    <!-- Column 3: DOWN -->
-    <div class="col-wrap">
-      <div class="scroll-col scroll-down">
-        <?php for ($i = 0; $i < 10; $i++): ?>
-          <div class="sq">🖼</div>
-        <?php endfor; ?>
-        <?php for ($i = 0; $i < 10; $i++): ?>
-          <div class="sq">🖼</div>
-        <?php endfor; ?>
+      <div class="col-wrap">
+        <div class="scroll-col scroll-down">
+          <?php for ($i = 0; $i < 10; $i++): ?>
+            <div class="sq">
+              <img src="/assets/scrolling_images/<?= ($i % 5 + 11) ?>.jpeg" alt="" loading="lazy">
+            </div>
+          <?php endfor; ?>
+        </div>
       </div>
-    </div>
 
   </div>
 

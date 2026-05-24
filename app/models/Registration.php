@@ -89,7 +89,16 @@ class Registration extends Database
         return $volunteers;
     }
 
-    // Cancel a registration
+   public function countAccepted(int $activityId): int
+    {
+        $query = "SELECT COUNT(*) as total FROM {$this->table} 
+                WHERE activity_id = ? AND status = 'terverifikasi'";
+        $stmt  = $this->connection->prepare($query);
+        $stmt->bind_param('i', $activityId);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        return (int) $result['total'];
+    }
     public function unregister(int $userId, int $activityId)
     {
         $query = "DELETE FROM {$this->table} WHERE user_id = ? AND activity_id = ?";

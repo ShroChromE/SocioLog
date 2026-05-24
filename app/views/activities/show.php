@@ -1,4 +1,18 @@
 <?php require_once '../app/models/Registration.php'; ?>
+<?php if (!empty($_GET['msg'])): ?>
+  <?php $msgs = [
+    'registered'         => ['bg-green-100 border-green-400 text-green-700',  'Berhasil mendaftar kegiatan!'],
+    'already_registered' => ['bg-yellow-100 border-yellow-400 text-yellow-700', 'Kamu sudah terdaftar di kegiatan ini.'],
+    'unregistered'       => ['bg-blue-100 border-blue-400 text-blue-700',      'Pendaftaran berhasil dibatalkan.'],
+    'failed'             => ['bg-red-100 border-red-400 text-red-700',         'Gagal mendaftar, coba lagi.'],
+    'penuh'              => ['bg-red-100 border-red-400 text-red-700',         'Maaf, kuota kegiatan ini sudah penuh.'],
+  ]; ?>
+  <?php if (isset($msgs[$_GET['msg']])): ?>
+    <div class="mb-4 px-4 py-3 border rounded-xl text-sm <?= $msgs[$_GET['msg']][0] ?>">
+      <?= $msgs[$_GET['msg']][1] ?>
+    </div>
+  <?php endif; ?>
+<?php endif; ?>
 
 <!-- Page Header with Back Button -->
 <div class="bg-brown-dark rounded-2xl p-6 mb-5 flex items-center gap-4">
@@ -74,7 +88,9 @@
 
   <div>
     <h3 class="text-base font-bold text-yellow mb-2">Jumlah Peserta</h3>
-    <p class="text-sm text-[#D4B896]"><?= ($activity['quota']) ?> peserta</p>
+    <p class="text-sm text-[#D4B896]">
+      Sisa kuota: <?= $activity['sisa'] ?> dari <?= $activity['quota'] ?> peserta
+    </p>
   </div>
 
 </div>
@@ -102,7 +118,7 @@
 <!-- Register Button -->
 <?php if (isset($_SESSION['user_id'])): ?>
   <?php
-    $regModel = new \App\Models\Registration();
+    $regModel     = new \App\Models\Registration();
     $isRegistered = $regModel->isRegistered($_SESSION['user_id'], $activity['id']);
   ?>
   <?php if ($isRegistered): ?>
@@ -112,6 +128,11 @@
         Batalkan Pendaftaran
       </button>
     </form>
+  <?php elseif ($activity['penuh']): ?>
+    <button disabled
+            class="w-full py-3.5 bg-gray-300 text-gray-500 text-base font-bold rounded-xl cursor-not-allowed mb-2">
+      Kuota Penuh
+    </button>
   <?php else: ?>
     <form method="POST" action="/activities/<?= $activity['id'] ?>/register">
       <button type="submit"
